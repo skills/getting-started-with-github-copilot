@@ -40,8 +40,8 @@ In our previous steps, we used features of Copilot that require more hands-on gu
    > <img width="13px" src="https://github.com/user-attachments/assets/98fd5d2e-ea29-4a4a-9212-c7050e177a69" /> **Prompt**
    >
    > ```prompt
-   > Hey Copilot, can you please edit the area where activities are
-   > listed on the website to show what participants are already signed up for that activity.
+   > Hey Copilot, can you please edit the activity cards to add a participants section.
+   > It will show what participants that are already signed up for that activity as a bulleted list.
    > ```
 
    - An extra icon has appeared next to the file names and open editor windows indicating they have suggested edits.
@@ -91,5 +91,12 @@ If you don't get feedback, here are some things to check:
 
 - Make sure your commite the changes in the `src/static/` directory to the branch `accelerate-with-copilot` and pushed/synchronized to GitHub.
 - If Mona found a mistake, simply make a correction and push your changes again. Mona will check your work as many times as needed.
+
+</details>
+
+<details>
+<summary>Bonus content? 🧐</summary><br/>
+
+> **Insider Tip:** Try adding an issue comment asking @professortocat about Copilot Agent mode. 😉
 
 </details>

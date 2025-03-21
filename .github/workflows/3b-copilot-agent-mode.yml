@@ -1,0 +1,82 @@
+name: Step 3b # Copilot Agent Mode
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+env:
+  # Keywords required in the issue comment to allow this workflow to run
+  REQUIRED_ISSUE_COMMENT_KEYWORDS: "@professortocat,Agent"
+  STEP_3B_FILE: ".github/steps/3b-copilot-agent-mode.md"
+
+jobs:
+  required_issue_comment_keywords:
+    name: Check issue comment text for required keywords
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Stop early if missing the expected keywords, case insensitive
+        shell: bash
+        run: |
+          required_keywords=(${REQUIRED_ISSUE_COMMENT_KEYWORDS//,/ })
+          comment_body_lower=$(echo "$COMMENT_BODY" | tr '[:upper:]' '[:lower:]')
+          for keyword in "${required_keywords[@]}"; do
+            keyword_lower=$(echo "$keyword" | tr '[:upper:]' '[:lower:]')
+            if [[ ! "$comment_body_lower" =~ $keyword_lower ]]; then
+              exit 1
+            fi
+          done
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+
+  find_exercise:
+    name: Find exercise by issue title
+    runs-on: ubuntu-latest
+
+    outputs:
+      issue-url: ${{ steps.get-issue-url.outputs.ISSUE_URL }}
+
+    steps:
+      - id: get-issue-url
+        run: |
+          # Get the issue url from the event or search for it.
+          if [ -n "${{ github.event.issue }}" ]; then
+            issue_url="${{ github.event.issue.html_url }}"
+          else
+            issue_url=$(gh issue list --repo $REPO --search "in:title Exercise:" --json url,title --jq '.[].url')
+          fi
+
+          # Save to output
+          echo "ISSUE_URL=$issue_url" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+
+  post_step_3b_content:
+    name: Post step 3b content
+    needs: [find_exercise]
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create comment - add step content
+        run: |
+          gh issue comment "$ISSUE_URL" \
+            --body-file "$STEP_3B_FILE"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Disable current workflow
+        run: |
+          gh workflow disable "Step 3b"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

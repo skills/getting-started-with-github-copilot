@@ -165,5 +165,6 @@ jobs:
         run: |
           gh workflow disable "Step 2"
           gh workflow enable "Step 3"
+          gh workflow enable "Step 3b"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
