@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienestar Digital - Equilibrio en la Era Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #667eea;
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            margin: 2rem auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .page {
+            display: none;
+            padding: 3rem;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #555;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .hero-section {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-section img {
+            max-width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .payment-method {
+            background: linear-gradient(135deg, #fff5f5, #f0f8ff);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .payment-method h3 {
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-method .icon {
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+
+        .cons {
+            background: #ffeaea;
+            border-left: 4px solid #f44336;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .license {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid #667eea;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .page {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">🌐 Bienestar Digital</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="nav-link active" data-page="home">Inicio</a></li>
+                <li><a href="#" class="nav-link" data-page="wellbeing">Bienestar Digital</a></li>
+                <li><a href="#" class="nav-link" data-page="payments">Pagos Electrónicos</a></li>
+                <li><a href="#" class="nav-link" data-page="comparison">Comparación</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenu">☰</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Página Inicial -->
+        <div class="page active" id="home">
+            <div class="hero-section">
+                <h1>Bienestar Digital</h1>
+                <p style="font-size: 1.2rem; color: #555;">Equilibrio y Salud en la Era Digital</p>
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tecnología y Bienestar">
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🧘‍♀️ Equilibrio Digital</h3>
+                    <p>Aprende a mantener un equilibrio saludable entre tu vida digital y personal, encontrando armonía en el uso de la tecnología.</p>
+                </div>
+                <div class="info-card">
+                    <h3>💳 Pagos Seguros</h3>
+                    <p>Descubre los métodos de pago electrónico más seguros y convenientes para tus transacciones digitales.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🛡️ Seguridad Digital</h3>
+                    <p>Protege tu información personal y financiera con las mejores prácticas de seguridad digital.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📱 Uso Consciente</h3>
+                    <p>Desarrolla hábitos digitales saludables que mejoren tu bienestar mental y físico.</p>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/3E7hkPZ-HTk" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="license">
+                <strong>Licencia:</strong> Este contenido está bajo licencia CC BY-SA 4.0 (Creative Commons Attribution-ShareAlike 4.0 International). Puedes compartir y adaptar el material con atribución apropiada.
+            </div>
+        </div>
+
+        <!-- Página Bienestar Digital -->
+        <div class="page" id="wellbeing">
+            <h1>¿Qué es el Bienestar Digital?</h1>
+            
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Bienestar Digital" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px; margin: 2rem 0;">
+            
+            <p>El bienestar digital se refiere al equilibrio saludable entre el uso de tecnologías digitales y el estado emocional, mental y físico de una persona. Se trata de encontrar un equilibrio entre la tecnología y la vida diaria, evitando los efectos negativos del uso excesivo.</p>
+
+            <h2>Características del Bienestar Digital</h2>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 Uso Intencionado</h3>
+                    <p>Utilizar la tecnología de manera consciente y con propósito específico, no por hábito o aburrimiento.</p>
+                </div>
+                <div class="info-card">
+                    <h3>⏰ Gestión del Tiempo</h3>
+                    <p>Establecer límites de tiempo para el uso de dispositivos y aplicaciones digitales.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🔄 Desconexión Periódica</h3>
+                    <p>Tomar descansos regulares de la tecnología para reconectar con el mundo físico.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🛡️ Privacidad y Seguridad</h3>
+                    <p>Proteger la información personal y mantener prácticas seguras en línea.</p>
+                </div>
+            </div>
+
+            <h2>Beneficios del Bienestar Digital</h2>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Beneficios Mentales</h4>
+                    <ul>
+                        <li>Reducción del estrés y ansiedad</li>
+                        <li>Mejor concentración y productividad</li>
+                        <li>Mayor autoestima y confianza</li>
+                        <li>Mejor calidad del sueño</li>
+                    </ul>
+                </div>
+                <div class="pros">
+                    <h4>✅ Beneficios Sociales</h4>
+                    <ul>
+                        <li>Relaciones más auténticas</li>
+                        <li>Mejor comunicación cara a cara</li>
+                        <li>Mayor participación en actividades físicas</li>
+                        <li>Conexión con la comunidad local</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Estrategias para Mejorar el Bienestar Digital</h2>
+            
+            <div class="payment-method">
+                <h3><span class="icon">1</span>Establece Horarios de Desconexión</h3>
+                <p>Crea períodos específicos del día donde no uses dispositivos digitales, especialmente antes de dormir.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">2</span>Usa Herramientas de Control</h3>
+                <p>Aprovecha las funciones de bienestar digital en tu dispositivo para monitorear y limitar el tiempo de uso.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">3</span>Practica la Atención Plena</h3>
+                <p>Sé consciente de cómo y por qué usas la tecnología. Pregúntate si realmente necesitas usar un dispositivo en cada momento.</p>
+            </div>
+
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/wSV1UFbhJ-A" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Página Métodos de Pago -->
+        <div class="page" id="payments">
+            <h1>Métodos de Pago Electrónico</h1>
+            
+            <p>En la era digital actual, los métodos de pago electrónico se han vuelto esenciales para realizar transacciones de manera rápida, segura y conveniente. A continuación, analizamos los principales métodos disponibles en 2025.</p>
+
+            <div class="payment-method">
+                <h3><span class="icon">💳</span>Tarjetas de Crédito y Débito</h3>
+                <p><strong>¿Qué es?</strong> Sistema de pago mediante tarjetas bancarias que permite realizar compras online y presenciales mediante la introducción de datos de la tarjeta o contacto físico.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Amplia aceptación mundial</li>
+                            <li>Protección contra fraudes</li>
+                            <li>Programa de recompensas</li>
+                            <li>Facilidad de uso</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Desventajas</h4>
+                        <ul>
+                            <li>Riesgo de clonación</li>
+                            <li>Comisiones por uso</li>
+                            <li>Posible endeudamiento</li>
+                            <li>Dependencia de conexión</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p><strong>Ejemplo de uso:</strong> Comprar en Amazon usando tu tarjeta Visa para adquirir un libro electrónico, introduciendo los 16 dígitos, fecha de caducidad y CVV.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">📱</span>Bizum</h3>
+                <p><strong>¿Qué es?</strong> Sistema de pago instantáneo español que permite transferir dinero entre particulares y pagar en comercios usando solo el número de teléfono.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Transferencias instantáneas</li>
+                            <li>Solo necesitas un teléfono</li>
+                            <li>Gratuito entre particulares</li>
+                            <li>Integrado con la banca española</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Desventajas</h4>
+                        <ul>
+                            <li>Limitado a España</li>
+                            <li>Límites de transferencia</li>
+                            <li>Requiere cuenta bancaria</li>
+                            <li>Dependiente de la banca tradicional</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p><strong>Ejemplo de uso:</strong> Dividir la cuenta de una cena con amigos enviando 25€ a cada uno usando Bizum, solo introduciendo sus números de teléfono.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">🌐</span>PayPal</h3>
+                <p><strong>¿Qué es?</strong> Plataforma de pagos online que actúa como intermediario entre compradores y vendedores, permitiendo transacciones seguras sin compartir datos bancarios.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Protección del comprador</li>
+                            <li>Aceptación internacional</li>
+                            <li>No comparte datos bancarios</li>
+                            <li>Interfaz sencilla</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Desventajas</h4>
+                        <ul>
+                            <li>Comisiones por transacción</li>
+                            <li>Posible congelación de cuentas</li>
+                            <li>Proceso de disputa complejo</li>
+                            <li>Tipos de cambio desfavorables</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p><strong>Ejemplo de uso:</strong> Comprar un curso online desde España a una plataforma estadounidense, pagando en dólares sin revelar tus datos bancarios al vendedor.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">🍎</span>Apple Pay / Google Pay</h3>
+                <p><strong>¿Qué es?</strong> Sistemas de pago móvil que permiten realizar pagos contactless usando smartphones, aprovechando la tecnología NFC y biometría para mayor seguridad.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Seguridad biométrica</li>
+                            <li>Pagos rápidos contactless</li>
+                            <li>Tokenización de datos</li>
+                            <li>Integración con el ecosistema móvil</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Desventajas</h4>
+                        <ul>
+                            <li>Limitado a dispositivos compatibles</li>
+                            <li>Dependencia de la batería</li>
+                            <li>No todos los comercios lo aceptan</li>
+                            <li>Requiere configuración inicial</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p><strong>Ejemplo de uso:</strong> Pagar el café en Starbucks acercando tu iPhone al terminal de pago y autenticando con Face ID, sin necesidad de sacar la tarjeta física.</p>
+            </div>
+
+            <div class="payment-method">
+                <h3><span class="icon">₿</span>Criptomonedas (Bitcoin, Ethereum)</h3>
+                <p><strong>¿Qué es?</strong> Monedas digitales descentralizadas que utilizan tecnología blockchain para realizar transacciones peer-to-peer sin intermediarios bancarios.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Transacciones descentralizadas</li>
+                            <li>Bajas comisiones internacionales</li>
+                            <li>Privacidad y anonimato</li>
+                            <li>Disponible 24/7</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Desventajas</h4>
+                        <ul>
+                            <li>Extrema volatilidad</li>
+                            <li>Poca aceptación comercial</li>
+                            <li>Complejidad técnica</li>
+                            <li>Riesgo de pérdida de claves</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p><strong>Ejemplo de uso:</strong> Comprar un dominio web .crypto pagando con Bitcoin desde tu wallet, evitando las restricciones bancarias tradicionales y manteniendo el anonimato.</p>
+            </div>
+        </div>
+
+        <!-- Página Comparación -->
+        <div class="page" id="comparison">
+            <h1>Comparación de Métodos de Pago</h1>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Método</th>
+                        <th>Seguridad</th>
+                        <th>Rapidez</th>
+                        <th>Coste</th>
+                        <th>Aceptación</th>
+                        <th>Facilidad de Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tarjeta Crédito/Débito</strong></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bizum</strong></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PayPal</strong></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Apple/Google Pay</strong></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Criptomonedas</strong></td>
+                        <td>⭐⭐⭐</td>
+                        <td>⭐⭐</td>
+                        <td>⭐⭐</td>
+                        <td>⭐</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Mis Recomendaciones Personales</h2>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🛡️ Más Seguro: Apple/Google Pay</h3>
+                    <p><strong>Justificación:</strong> La combinación de tokenización, autenticación biométrica y cifrado avanzado hace que estos métodos sean los más seguros. Los datos reales de la tarjeta nunca se comparten con los comerciantes.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>⚡ Más Cómodo: Bizum</h3>
+                    <p><strong>Justificación:</strong> Para transacciones entre particulares en España, Bizum es imbatible. Solo necesitas el número de teléfono y la transferencia es instantánea y gratuita.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🎯 Mi Elección Personal: Combinación Inteligente</h3>
+                    <p><strong>Justificación:</strong> Usaría Apple Pay para compras físicas (seguridad + comodidad), Bizum para transferencias a amigos, y PayPal para compras online internacionales. Diversificar métodos reduce riesgos y maximiza beneficios.</p>
+                </div>
+            </div>
+
+            <h2>Tendencias Futuras en Pagos Digitales</h2>
+            
+            <p>Los métodos de pago continúan evolucionando hacia mayor seguridad, conveniencia y accesibilidad. En 2025, observamos tendencias como:</p>
+            
+            <div class="payment-method">
+                <h3><span class="icon">🤖</span>Inteligencia Artificial
