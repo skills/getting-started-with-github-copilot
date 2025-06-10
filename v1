@@ -1,0 +1,714 @@
+import time
+import datetime
+import json
+import requests
+import numpy as np
+import asyncio
+import random
+from binance.client import Client
+from binance.exceptions import BinanceAPIException
+from telegram import Bot
+from telegram.error import TelegramError
+
+# ================= إعدادات Binance و Telegram ================= #
+BINANCE_API_KEY = "amYzUD1gKVWw9br7BrT64RQG6qQIZpLSXLMkI6OfgLRTUYsE9dXfXDSSpCAv7tm4"
+BINANCE_API_SECRET = "e3PyPrxamf90LoUbzK1m1aUc8QdfPZP1ihdosTvOOoFJT8kvUdJdXXPkPPJeBzJ3"
+TELEGRAM_BOT_TOKEN = "7870773249:AAFthY0F38f1MFdkOSO1Xqf3_bNAjgy41ws"
+TELEGRAM_CHAT_ID = "@abdulaziz_btc_bot"
+
+# ================= إعدادات التداول ================= #
+INTERVALS = [
+    (Client.KLINE_INTERVAL_30MINUTE, "30 دقيقة"),
+    (Client.KLINE_INTERVAL_1HOUR,   "1 ساعة"),
+    (Client.KLINE_INTERVAL_1DAY,    "1 يوم"),
+]
+RISK_PERCENT = 1  # نسبة المخاطرة من رأس المال لكل صفقة
+TAKE_PROFIT_RATIOS = [1, 2, 3]  # نسب جني الأرباح
+STOP_LOSS_RATIO = 1  # نسبة وقف الخسارة
+MIN_24H_VOLUME = 50000000  # الحد الأدنى لحجم التداول اليومي
+MIN_TRADE_SIZE = 10  # الحد الأدنى لحجم الصفقة بالدولار
+TRAILING_STOP_PERCENT = 0.5  # مسافة التوقف المتحرك بنسبة 0.5%
+
+# ================= إعدادات المؤشرات ================= #
+RSI_PERIOD = 14
+MACD_FAST = 12
+MACD_SLOW = 26
+MACD_SIGNAL = 9
+
+# تهيئة عميل Binance و Telegram
+client = Client(BINANCE_API_KEY, BINANCE_API_SECRET)
+telegram_bot = Bot(token=TELEGRAM_BOT_TOKEN)
+
+# قائمة العملات - سيتم تحديثها تلقائيًا
+SYMBOLS = []
+symbols_last_updated = 0
+SYMBOLS_UPDATE_INTERVAL = 3600  # تحديث القائمة كل ساعة
+SYMBOL_IMAGE_CACHE_FILE = "symbol_images.json"  # ملف التخزين المؤقت للصور
+
+# قاموس لمعرفات العملات الشهيرة في CoinGecko
+COINGECKO_IDS = {
+    "BTCUSDT": "bitcoin",
+    "ETHUSDT": "ethereum",
+    "ETCUSDT": "ethereum-classic",
+    "BNBUSDT": "binancecoin",
+    "SOLUSDT": "solana",
+    "XRPUSDT": "ripple",
+    "ADAUSDT": "cardano",
+    "DOGEUSDT": "dogecoin",
+    "DOTUSDT": "polkadot",
+    "AVAXUSDT": "avalanche",
+    "LINKUSDT": "chainlink",
+    "MATICUSDT": "matic-network",
+    "LTCUSDT": "litecoin",
+    "ATOMUSDT": "cosmos",
+    "UNIUSDT": "uniswap",
+    "ALGOUSDT": "algorand",
+    "XLMUSDT": "stellar",
+    "VETUSDT": "vechain",
+    "ICPUSDT": "internet-computer",
+    "FILUSDT": "filecoin",
+    "TRXUSDT": "tron",
+    "AXSUSDT": "axie-infinity",
+    "SANDUSDT": "the-sandbox",
+    "MANAUSDT": "decentraland",
+    "NEARUSDT": "near",
+    "FTMUSDT": "fantom",
+    "GRTUSDT": "the-graph",
+    "AAVEUSDT": "aave",
+}
+
+# ملف سجل الصفقات
+TRADE_LOG_FILE = "trades_log.json"
+
+# ========== تحسينات الأمان والاستقرار ========== #
+def load_symbol_images_cache():
+    """تحميل الصور من التخزين المؤقت"""
+    try:
+        with open(SYMBOL_IMAGE_CACHE_FILE, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+def save_symbol_images_cache(cache):
+    """حفظ الصور في التخزين المؤقت"""
+    try:
+        with open(SYMBOL_IMAGE_CACHE_FILE, 'w') as f:
+            json.dump(cache, f, indent=4)
+    except Exception as e:
+        print(f"خطأ في حفظ التخزين المؤقت: {str(e)}")
+
+# تهيئة التخزين المؤقت للصور
+symbol_images = load_symbol_images_cache()
+
+def initialize_trade_log():
+    """تهيئة ملف سجل الصفقات"""
+    try:
+        with open(TRADE_LOG_FILE, 'r') as f:
+            pass
+    except FileNotFoundError:
+        with open(TRADE_LOG_FILE, 'w') as f:
+            json.dump([], f)
+
+def log_trade(trade_info):
+    """تسجيل الصفقة في ملف السجل"""
+    try:
+        with open(TRADE_LOG_FILE, 'r+') as f:
+            trades = json.load(f)
+            trades.append(trade_info)
+            f.seek(0)
+            json.dump(trades, f, indent=4)
+    except Exception as e:
+        print(f"فشل في تسجيل الصفقة: {str(e)}")
+
+def safe_api_request(url, params=None, max_retries=3, timeout=15):
+    """تنفيذ طلبات API بشكل آمن مع إدارة الأخطاء وإعادة المحاولة"""
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, params=params, timeout=timeout)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 429:  # تجاوز الحد المسموح
+                retry_after = e.response.headers.get('Retry-After')
+                if retry_after:
+                    wait_time = float(retry_after) + random.uniform(1, 3)
+                else:
+                    wait_time = min(30, (3 ** attempt) + random.uniform(2, 5))
+                print(f"تم تجاوز الحد المسموح. إعادة المحاولة بعد {wait_time:.1f} ثواني...")
+                time.sleep(wait_time)
+            elif e.response.status_code in [404, 403]:
+                print(f"خطأ غير قابل للإصلاح: {e.response.status_code}")
+                return None
+            else:
+                print(f"خطأ HTTP: {e.response.status_code} - {e.response.text}")
+                time.sleep(3)
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            wait_time = min(30, (3 ** attempt) + random.uniform(2, 5))
+            print(f"خطأ في الاتصال: {str(e)}. إعادة المحاولة بعد {wait_time:.1f} ثواني...")
+            time.sleep(wait_time)
+        except Exception as e:
+            print(f"خطأ عام في الطلب: {str(e)}")
+            time.sleep(5)
+    print(f"❌ فشل الطلب بعد {max_retries} محاولات")
+    return None
+
+def get_symbol_image(symbol):
+    """الحصول على صورة العملة من CoinGecko بشكل آمن"""
+    if symbol in symbol_images:
+        return symbol_images[symbol]
+    
+    coin_id = COINGECKO_IDS.get(symbol, symbol.replace("USDT", "").lower())
+    url = f"https://api.coingecko.com/api/v3/coins/{coin_id}"
+    
+    try:
+        data = safe_api_request(url)
+        if data and "image" in data and "large" in data["image"]:
+            image_url = data["image"]["large"]
+            symbol_images[symbol] = image_url
+            save_symbol_images_cache(symbol_images)
+            return image_url
+    except Exception as e:
+        print(f"خطأ في الحصول على صورة {symbol}: {str(e)}")
+    
+    return "https://cryptologos.cc/logos/default.png"
+
+def send_telegram_message_via_api(message):
+    """إرسال رسالة إلى Telegram باستخدام API بشكل آمن"""
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+    try:
+        response = requests.post(url, json=payload, timeout=20)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        print(f"خطأ في إرسال الرسالة عبر API: {str(e)}")
+        return None
+
+def update_symbols_list():
+    """تحديث قائمة العملات تلقائيًا من Binance Futures مع إدارة الأخطاء"""
+    global SYMBOLS, symbols_last_updated
+    
+    try:
+        exchange_info = client.futures_exchange_info()
+        symbols_data = exchange_info['symbols']
+        
+        # تصفية العملات التي تنتهي بـ USDT ولها حجم تداول كافٍ
+        usdt_pairs = [
+            s['symbol'] for s in symbols_data 
+            if s['quoteAsset'] == 'USDT' and 
+               s['status'] == 'TRADING' and 
+               s['contractType'] == 'PERPETUAL'
+        ]
+        
+        # الحصول على أحجام التداول لآخر 24 ساعة
+        tickers = client.futures_ticker()
+        symbol_volumes = []
+        
+        for symbol in usdt_pairs:
+            for t in tickers:
+                if t['symbol'] == symbol:
+                    volume = float(t['quoteVolume'])
+                    if volume > MIN_24H_VOLUME:
+                        symbol_volumes.append((symbol, volume))
+                    break
+        
+        symbol_volumes.sort(key=lambda x: x[1], reverse=True)
+        
+        # تصفية إضافية للتأكد من صحة البيانات
+        valid_symbols = []
+        for symbol, volume in symbol_volumes[:100]:  # الحد الأقصى 100 عملة للفحص
+            try:
+                # اختبار الحصول على سعر العملة
+                ticker = client.futures_symbol_ticker(symbol=symbol)
+                price = float(ticker['price'])
+                
+                # اختبار الحصول على بيانات تاريخية
+                prices, _ = get_historical_data(symbol, Client.KLINE_INTERVAL_1HOUR)
+                
+                # التحقق من صحة البيانات
+                if price > 0 and len(prices) > 10 and all(p > 0 for p in prices[-10:]):
+                    valid_symbols.append(symbol)
+                else:
+                    print(f"⛔ تخطي {symbol}: بيانات غير صالحة (السعر: {price}, عدد البيانات: {len(prices)})")
+                    
+            except BinanceAPIException as e:
+                if e.code == -1121:  # رمز خطأ العملة غير الصالحة
+                    print(f"⛔ تخطي {symbol}: عملة غير صالحة")
+                else:
+                    print(f"⛔ تخطي {symbol}: خطأ API ({e.code})")
+            except Exception as e:
+                print(f"⛔ تخطي {symbol}: خطأ عام ({str(e)})")
+        
+        # الحد الأقصى 50 عملة بعد التصفية الإضافية
+        SYMBOLS = valid_symbols[:50]
+        
+        if SYMBOLS:
+            symbols_last_updated = time.time()
+            print(f"✅ تم تحديث قائمة العملات: {len(SYMBOLS)} عملة")
+            
+            message = (
+                "🔄 *تم تحديث قائمة العملات المراقبة*\n"
+                f"📊 **عدد العملات:** {len(SYMBOLS)}\n"
+                "⚖️ **الحد الأقصى:** أعلى 50 عملة بحجم التداول"
+            )
+            send_telegram_message_via_api(message)
+        else:
+            print("⚠️ لم يتم العثور على عملات تلبي المعايير")
+    except Exception as e:
+        print(f"خطأ في تحديث قائمة العملات: {str(e)}")
+
+# ========== تحسينات التحليل الفني ========== #
+def get_atr(symbol, interval, period=14):
+    """حساب مؤشر المدى الحقيقي المتوسط (ATR) مع إدارة الأخطاء"""
+    try:
+        supported_intervals = [i[0] for i in INTERVALS]
+        if interval not in supported_intervals:
+            print(f"الفاصل الزمني [{interval}] غير مدعوم لحساب ATR لـ [{symbol}]")
+            return 0
+        
+        klines = client.futures_klines(symbol=symbol, interval=interval, limit=period*2)
+        if len(klines) < period:
+            return 0
+
+        tr_values = []
+        for i in range(1, len(klines)):
+            high = float(klines[i][2])
+            low = float(klines[i][3])
+            prev_close = float(klines[i-1][4])
+            tr = max(high - low, abs(high - prev_close), abs(low - prev_close))
+            tr_values.append(tr)
+        
+        atr = sum(tr_values[-period:]) / period
+        return atr
+    except BinanceAPIException as e:
+        print(f"خطأ API في حساب ATR لـ [{symbol}] بفاصل [{interval}]: {e.status_code} - {e.message}")
+        return 0
+    except Exception as e:
+        print(f"خطأ في حساب ATR لـ [{symbol}] بفاصل [{interval}]: {str(e)}")
+        return 0
+
+def get_historical_data(symbol, interval):
+    """الحصول على البيانات التاريخية بشكل آمن"""
+    try:
+        supported_intervals = [i[0] for i in INTERVALS]
+        if interval not in supported_intervals:
+            print(f"الفاصل الزمني [{interval}] غير مدعوم لـ [{symbol}]")
+            return [], []
+        
+        klines = client.futures_klines(symbol=symbol, interval=interval, limit=100)
+        prices = [float(kline[4]) for kline in klines]
+        volumes = [float(kline[5]) for kline in klines]
+        
+        # التحقق من جودة البيانات
+        if len(prices) < 10 or any(price <= 0 for price in prices[-10:]):
+            print(f"⛔ بيانات غير صالحة لـ [{symbol}] بفاصل [{interval}]")
+            return [], []
+            
+        return prices, volumes
+    except BinanceAPIException as e:
+        print(f"خطأ API في الحصول على البيانات لـ [{symbol}] بفاصل [{interval}]: {e.status_code} - {e.message}")
+        return [], []
+    except Exception as e:
+        print(f"خطأ في الحصول على البيانات لـ [{symbol}] بفاصل [{interval}]: {str(e)}")
+        return [], []
+
+def calculate_ema(prices, period):
+    """حساب المتوسط المتحرك الأسي (EMA) بشكل آمن"""
+    if len(prices) < period:
+        return []
+    try:
+        ema = [sum(prices[:period]) / period]
+        k = 2 / (period + 1)
+        for price in prices[period:]:
+            ema.append(price * k + ema[-1] * (1 - k))
+        return ema
+    except Exception as e:
+        print(f"خطأ في حساب EMA: {str(e)}")
+        return []
+
+def calculate_rsi(prices, period=14):
+    """حساب مؤشر القوة النسبية (RSI) بشكل آمن"""
+    if len(prices) < period + 1:
+        return None
+    try:
+        deltas = np.diff(prices)
+        gains = [max(d, 0) for d in deltas]
+        losses = [max(-d, 0) for d in deltas]
+        
+        avg_gain = sum(gains[:period]) / period
+        avg_loss = sum(losses[:period]) / period or 0.001
+        
+        for i in range(period, len(gains)):
+            avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+            avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+        
+        rs = avg_gain / avg_loss
+        return 100 - (100 / (1 + rs))
+    except Exception as e:
+        print(f"خطأ في حساب RSI: {str(e)}")
+        return None
+
+def analyze_technical_indicators(prices, volumes):
+    """تحليل المؤشرات الفنية مع التعامل مع البيانات الناقصة"""
+    try:
+        if len(prices) < max(MACD_SLOW + 1, RSI_PERIOD + 1):
+            return {"MACD": None, "RSI": None, "Volume Spike": None}
+
+        # حساب MACD
+        ema_fast = calculate_ema(prices, MACD_FAST)[-50:] or []
+        ema_slow = calculate_ema(prices, MACD_SLOW)[-50:] or []
+        if not ema_fast or not ema_slow:
+            return {"MACD": None, "RSI": None, "Volume Spike": None}
+
+        min_length = min(len(ema_fast), len(ema_slow))
+        macd_line = [ema_fast[i] - ema_slow[i] for i in range(-min_length, 0)]
+        macd_signal = calculate_ema(macd_line, MACD_SIGNAL) or []
+        if not macd_signal:
+            return {"MACD": None, "RSI": None, "Volume Spike": None}
+
+        macd = macd_line[-1] - macd_signal[-1] if macd_line and macd_signal else None
+
+        # حساب RSI
+        rsi = calculate_rsi(prices[-100:], RSI_PERIOD) if len(prices) >= RSI_PERIOD + 1 else None
+
+        # تحليل الحجم
+        avg_volume = np.mean(volumes[-14:]) if len(volumes) >= 14 else 0
+        last_volume = volumes[-1] if volumes else 0
+        volume_spike = last_volume > avg_volume * 1.5
+
+        return {"MACD": macd, "RSI": rsi, "Volume Spike": volume_spike}
+    except Exception as e:
+        print(f"خطأ في تحليل المؤشرات الفنية: {str(e)}")
+        return {"MACD": None, "RSI": None, "Volume Spike": None}
+
+# ========== تحسينات التداول والتنفيذ ========== #
+def get_daily_trend(symbol):
+    """تحديد الاتجاه اليومي مع إدارة الأخطاء"""
+    try:
+        klines = client.futures_klines(
+            symbol=symbol,
+            interval=Client.KLINE_INTERVAL_1DAY,
+            limit=3
+        )
+        if len(klines) < 3:
+            return "غير محدد"
+        
+        prices = [float(k[4]) for k in klines]
+        ticker = client.futures_symbol_ticker(symbol=symbol)
+        current_price = float(ticker['price']) if isinstance(ticker, dict) else float(ticker[0]['price'])
+        
+        sma = np.mean(prices)
+        return "صعودي" if current_price > sma else "هبوطي"
+    except BinanceAPIException as e:
+        print(f"خطأ API في تحليل الاتجاه اليومي لـ [{symbol}]: {e.status_code} - {e.message}")
+        return "غير محدد"
+    except Exception as e:
+        print(f"خطأ في تحليل الاتجاه اليومي لـ [{symbol}]: {str(e)}")
+        return "غير محدد"
+
+def get_available_balance():
+    """الحصول على الرصيد المتاح بشكل آمن"""
+    try:
+        account_info = client.futures_account_balance()
+        usdt_balance = next((item for item in account_info if item['asset'] == 'USDT'), None)
+        if usdt_balance:
+            return float(usdt_balance['availableBalance']), float(usdt_balance['balance'])
+        return 0, 0
+    except Exception as e:
+        print(f"خطأ في الحصول على الرصيد: {str(e)}")
+        return 0, 0
+
+def calculate_position_size(symbol, entry_price, stop_loss, risk_percent=RISK_PERCENT):
+    """حجم المركز مع إدارة المخاطر"""
+    try:
+        available_balance, _ = get_available_balance()
+        if available_balance <= MIN_TRADE_SIZE:
+            return 0
+        
+        # حساب مبلغ المخاطرة بالدولار
+        risk_amount = available_balance * (risk_percent / 100)
+        
+        # حساب المخاطرة لكل عقد (بالدولار)
+        risk_per_contract = abs(entry_price - stop_loss)
+        if risk_per_contract == 0:
+            print(f"⛔ خطر الصفقة صفر لـ [{symbol}] - لا يمكن حساب حجم المركز")
+            return 0
+        
+        # حساب عدد العقود (بدون تقريب)
+        contracts = risk_amount / risk_per_contract
+        
+        # الحصول على معلومات العقد
+        symbol_info = client.futures_exchange_info()
+        symbol_data = next((s for s in symbol_info['symbols'] if s['symbol'] == symbol), None)
+        if not symbol_data:
+            return 0
+        
+        # استخراج حجم الخطوة
+        step_size = 0.001  # قيمة افتراضية
+        for filt in symbol_data['filters']:
+            if filt['filterType'] == 'LOT_SIZE':
+                step_size = float(filt['stepSize'])
+                break
+        
+        # حساب حجم المركز مع التقريب الصحيح
+        position_size = max(round(contracts - (contracts % step_size), 8), step_size)
+        
+        # التحقق من الحد الأدنى لحجم الصفقة
+        position_value = position_size * entry_price
+        if position_value < MIN_TRADE_SIZE:
+            return 0
+            
+        # تسجيل تفاصيل الحساب
+        print(f"[{symbol}] حجم المركز: {position_size:.4f} | قيمة المركز: {position_value:.2f} USD | المخاطرة: {risk_amount:.2f} USD")
+            
+        return position_size
+    except Exception as e:
+        print(f"خطأ في حساب حجم المركز: {str(e)}")
+        return 0
+
+def execute_trade(symbol, signal, position_size, entry_price, stop_loss, tp_levels):
+    """تنفيذ أمر تداول مع إدارة الأخطاء"""
+    if position_size <= 0:
+        return False
+    
+    # التحقق من صحة القيم قبل التنفيذ
+    if entry_price <= 0 or any(tp <= 0 for tp in tp_levels) or stop_loss <= 0:
+        print(f"⛔ قيم غير صالحة لـ [{symbol}] - لا يمكن تنفيذ الصفقة")
+        return False
+        
+    try:
+        side = 'BUY' if signal == 'BUY' else 'SELL'
+        order = client.futures_create_order(
+            symbol=symbol,
+            side=side,
+            type='MARKET',
+            quantity=position_size,
+            reduceOnly=False
+        )
+        set_stop_loss_and_take_profit(symbol, side, position_size, entry_price, stop_loss, tp_levels)
+        return True
+    except BinanceAPIException as e:
+        print(f"خطأ في تنفيذ الأمر: {e.status_code} - {e.message}")
+    except Exception as e:
+        print(f"خطأ عام في التنفيذ: {str(e)}")
+    return False
+
+def set_stop_loss_and_take_profit(symbol, side, position_size, entry_price, stop_loss, tp_levels):
+    """وضع أوامر الوقف بشكل آمن"""
+    try:
+        # وقف الخسارة المتحرك
+        callback_rate = TRAILING_STOP_PERCENT  # نسبة التوقف المتحرك
+        
+        client.futures_create_order(
+            symbol=symbol,
+            side='SELL' if side == 'BUY' else 'BUY',
+            type='TRAILING_STOP_MARKET',
+            quantity=position_size,
+            callbackRate=callback_rate,  # نسبة التوقف (0.5%)
+            activationPrice=None,  # يبدأ التتبع فور وضع الأمر
+            reduceOnly=True
+        )
+        
+        # جني الأرباح
+        tp_qty = position_size / len(tp_levels)
+        for tp in tp_levels:
+            client.futures_create_order(
+                symbol=symbol,
+                side='SELL' if side == 'BUY' else 'BUY',
+                type='TAKE_PROFIT_MARKET',
+                quantity=tp_qty,
+                stopPrice=tp,
+                closePosition=False
+            )
+        return True
+    except Exception as e:
+        print(f"خطأ في وضع أوامر الوقف: {str(e)}")
+        return False
+
+# ========== تحسينات الإشعارات ========== #
+async def async_send_telegram_alert(symbol, trade_signal, price, entry_price, tp_levels, stop_loss, trend, frame, volume_spike, position_size, executed=False):
+    """إرسال إشعار عبر Telegram بشكل غير متزامن"""
+    coin_name = symbol.replace("USDT", "")
+    status = "✅ تم التنفيذ" if executed else "⚠️ إشارة فقط"
+    
+    # إضافة تحذير إذا كانت القيم غير صالحة
+    warning_msg = ""
+    if entry_price <= 0 or any(tp <= 0 for tp in tp_levels) or stop_loss <= 0:
+        warning_msg = "\n\n🚨 **تحذير: بعض القيم غير صالحة!**\nيرجى التحقق يدويًا قبل التداول"
+    
+    # إضافة معلومات التوقف المتحرك
+    trailing_info = f"\n📉 **وقف الخسارة المتحرك:** {TRAILING_STOP_PERCENT}%"
+    
+    message = (
+        f"🚀 *إشارة تداول جديدة* ({frame}) - {status}\n"
+        f"🔸 **العملة:** {coin_name}/{symbol}\n"
+        f"🔸 **الإشارة:** {'🟩 شراء' if trade_signal == 'BUY' else '🟥 بيع'}\n"
+        f"▪️ **السعر الحالي:** ${price:.4f}\n"
+        f"🔹 **سعر الدخول:** ${entry_price:.4f}\n"
+        f"📈 **أهداف الربح:**\n"
+        f"    TP1: ${tp_levels[0]:.4f}\n"
+        f"    TP2: ${tp_levels[1]:.4f}\n"
+        f"    TP3: ${tp_levels[2]:.4f}\n"
+        f"📊 **الاتجاه اليومي:** {trend}\n"
+        f"💹 **ارتفاع في الحجم:** {'✅ نعم' if volume_spike else '❌ لا'}\n"
+        f"💰 **حجم المركز:** {position_size:.4f} {coin_name}"
+        f"{trailing_info}"
+        f"{warning_msg}"
+    )
+    
+    # الحصول على رابط الصورة
+    image_url = symbol_images.get(symbol, "https://cryptologos.cc/logos/default.png")
+    
+    try:
+        # إرسال الصورة مع النص
+        await telegram_bot.send_photo(
+            chat_id=TELEGRAM_CHAT_ID,
+            photo=image_url,
+            caption=message,
+            parse_mode="Markdown"
+        )
+    except TelegramError as e:
+        print(f"خطأ في إرسال الصورة: {str(e)}")
+        # إرسال الرسالة النصية فقط كبديل
+        try:
+            await telegram_bot.send_message(
+                chat_id=TELEGRAM_CHAT_ID,
+                text=message,
+                parse_mode="Markdown"
+            )
+            print("✅ تم إرسال الرسالة النصية بنجاح")
+        except TelegramError as e2:
+            print(f"فشل إرسال الرسالة النصية: {str(e2)}")
+    except Exception as e:
+        print(f"خطأ غير متوقع في الإرسال: {str(e)}")
+
+def send_telegram_alert(symbol, trade_signal, price, entry_price, tp_levels, stop_loss, trend, frame, volume_spike, position_size, executed=False):
+    """طبقة تفاف للإرسال المتزامن"""
+    try:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(
+            async_send_telegram_alert(
+                symbol, trade_signal, price, entry_price,
+                tp_levels, stop_loss, trend, frame,
+                volume_spike, position_size, executed
+            )
+        )
+        loop.close()
+    except Exception as e:
+        print(f"خطأ في إرسال إشعار تيليجرام: {str(e)}")
+
+# ========== الإستراتيجية الرئيسية ========== #
+def live_strategy_multi_timeframes():
+    """استراتيجية التداول متعددة الفريمات مع تحسينات الأداء"""
+    global SYMBOLS, symbols_last_updated
+    
+    # تحديث قائمة العملات إذا حان وقت التحديث
+    if time.time() - symbols_last_updated > SYMBOLS_UPDATE_INTERVAL:
+        update_symbols_list()
+    
+    available_balance, _ = get_available_balance()
+    if available_balance < MIN_TRADE_SIZE:
+        print(f"⛔ رصيد غير كافٍ: {available_balance:.2f} USDT")
+        return
+    
+    symbols_to_check = SYMBOLS[:min(50, len(SYMBOLS))]
+    for symbol in symbols_to_check:
+        try:
+            daily_trend = get_daily_trend(symbol)
+            
+            for interval, label in INTERVALS:
+                try:
+                    prices, volumes = get_historical_data(symbol, interval)
+                    if len(prices) < 40:
+                        continue
+
+                    indicators = analyze_technical_indicators(prices, volumes)
+                    if indicators["MACD"] is None or indicators["RSI"] is None:
+                        continue
+
+                    current_price = float(client.futures_symbol_ticker(symbol=symbol)['price'])
+                    
+                    # تخطي العملات ذات الأسعار غير الصالحة
+                    if current_price <= 0:
+                        print(f"⛔ تخطي {symbol}: سعر غير صالح ({current_price})")
+                        continue
+                    
+                    signal = None
+                    
+                    # شروط الشراء والبيع
+                    if indicators["MACD"] > 0 and indicators["RSI"] < 30:
+                        signal = "BUY"
+                    elif indicators["MACD"] < 0 and indicators["RSI"] > 70:
+                        signal = "SELL"
+                    
+                    if signal:
+                        atr = get_atr(symbol, interval) or (current_price * 0.01)
+                        if signal == "BUY":
+                            entry = current_price
+                            tp_levels = [entry + (ratio * atr) for ratio in TAKE_PROFIT_RATIOS]
+                            sl = entry - (STOP_LOSS_RATIO * atr)
+                        else:  # SELL
+                            entry = current_price
+                            tp_levels = [entry - (ratio * atr) for ratio in TAKE_PROFIT_RATIOS]
+                            sl = entry + (STOP_LOSS_RATIO * atr)
+                        
+                        # التحقق من صحة القيم المحسوبة
+                        if any(value <= 0 for value in [entry] + tp_levels + [sl]):
+                            print(f"⛔ قيم غير صالحة لـ [{symbol}]:")
+                            print(f"   الدخول: {entry}, TP: {tp_levels}, SL: {sl}")
+                            continue
+                        
+                        position_size = calculate_position_size(symbol, entry, sl)
+                        if position_size > 0:
+                            executed = execute_trade(symbol, signal, position_size, entry, sl, tp_levels)
+                            send_telegram_alert(
+                                symbol, signal, current_price, entry,
+                                tp_levels, sl, daily_trend, label,
+                                indicators["Volume Spike"], position_size, executed
+                            )
+                            # بعد أول إشارة صالحة نخرج من حلقة الفريمات
+                            break
+                except Exception as e:
+                    print(f"خطأ في معالجة الإطار الزمني [{interval}] للعملة [{symbol}]: {str(e)}")
+        except Exception as e:
+            print(f"خطأ في معالجة العملة [{symbol}]: {str(e)}")
+        
+        time.sleep(1)  # الانتظار بين كل عملة وأخرى
+
+# ========== التشغيل الرئيسي ========== #
+if __name__ == "__main__":
+    initialize_trade_log()
+    update_symbols_list()
+    
+    available_balance, total_balance = get_available_balance()
+    print(f"💰 الرصيد الأولي: ${available_balance:.2f} | ${total_balance:.2f}")
+    
+    if available_balance < MIN_TRADE_SIZE:
+        message = (
+            f"⛔ *تحذير: رصيد غير كافٍ*\n"
+            f"الرصيد المتاح: ${available_balance:.2f}\n"
+            f"الحد الأدنى: ${MIN_TRADE_SIZE}"
+        )
+        send_telegram_message_via_api(message)
+    
+    print(f"✅ بدء مراقبة السوق عبر {len(SYMBOLS)} عملة...")
+    
+    while True:
+        try:
+            start_time = time.time()
+            live_strategy_multi_timeframes()
+            elapsed = time.time() - start_time
+            sleep_time = max(300 - elapsed, 60)  # 5 دقائق بين الدورات أو دقيقة كحد أدنى
+            print(f"⏱️ اكتملت الدورة في {elapsed:.2f} ثانية")
+            time.sleep(sleep_time)
+        except KeyboardInterrupt:
+            print("⛔ تم إيقاف البرنامج")
+            break
+        except Exception as e:
+            print(f"خطأ غير متوقع: {str(e)}")
+            time.sleep(60)
