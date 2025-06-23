@@ -20,7 +20,7 @@ Here's a recap of your accomplishments:
   - Use Copilot with different models.
 - Check out the other [GitHub Skills exercises](https://skills.github.com).
   - Learn how to [Integrate MCP with Copilot](https://github.com/skills/integrate-mcp-with-copilot)
-  - Try building your first [GitHub Copilot Extension](https://github.com/skills/your-first-extension-for-github-copilot)
+  - Try GitHub Copilot Coding Agent in the [Expand your team with Copilot](https://github.com/skills/expand-your-team-with-copilot) exercise
 
 Check out these resources to learn more about GitHub Copilot :
 
