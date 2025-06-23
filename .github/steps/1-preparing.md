@@ -32,7 +32,7 @@ As you work, you'll find GitHub Copilot can help out in several places across th
 
 Let's start up our development environment, use copilot to learn a bit about the project, and then give it a test run.
 
-1. Left-click the below button to open the **Create Codespace** page in a new tab. Use the default configuration.
+1. Use the below button to open the **Create Codespace** page in a new tab. Use the default configuration.
 
    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
 
