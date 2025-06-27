@@ -1,26 +1,30 @@
 """
 High School Management System API
 
-A super simple FastAPI application that allows students to view and sign up
+A simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
+from pydantic import BaseModel, EmailStr
+from typing import Dict
 import os
 from pathlib import Path
 
-app = FastAPI(title="Mergington High School API",
-              description="API for viewing and signing up for extracurricular activities")
+app = FastAPI(
+    title="Mergington High School API",
+    description="API for viewing and signing up for extracurricular activities"
+)
 
 # Mount the static files directory
-current_dir = Path(__file__).parent
-app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
-          "static")), name="static")
+static_dir = os.path.join(Path(__file__).parent, "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
 
 # In-memory activity database
-activities = {
+activities: Dict[str, dict] = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
@@ -42,26 +46,40 @@ activities = {
 }
 
 
-@app.get("/")
+class SignupRequest(BaseModel):
+    email: EmailStr
+
+
+@app.get("/", include_in_schema=False)
 def root():
     return RedirectResponse(url="/static/index.html")
 
 
 @app.get("/activities")
 def get_activities():
+    """Get all activities and their details"""
     return activities
 
 
 @app.post("/activities/{activity_name}/signup")
-def signup_for_activity(activity_name: str, email: str):
+def signup_for_activity(activity_name: str, signup: SignupRequest):
     """Sign up a student for an activity"""
+    email = signup.email
+
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    # Get the specific activity
     activity = activities[activity_name]
 
-    # Add student
+    # Check if already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Already signed up for this activity")
+
+    # Check if activity is full
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(status_code=400, detail="Activity is full")
+
+    # Add participant
     activity["participants"].append(email)
-    return {"message": f"Signed up {email} for {activity_name}"}
+    return {"message": f"Successfully signed up {email} for {activity_name}"}
