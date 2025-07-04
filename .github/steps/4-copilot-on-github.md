@@ -6,19 +6,19 @@ Congratulations! You are finished with coding for this exercise (and VS Code). N
 
 Typically, you would review your notes and commit messages then summarize them for your pull request description. This may take some time, especially if commit messages are inconsistent or code is not documented well. Fortunately, Copilot can consider all changes in the pull request and provide the important highlights, and with references too!
 
-> [!NOTE]  
+> [!NOTE]
 > This feature is not available in **GitHub Copilot Free**. [[docs]](https://docs.github.com/en/enterprise-cloud@latest/copilot/using-github-copilot/using-github-copilot-for-pull-requests/creating-a-pull-request-summary-with-github-copilot)
 
 #### Copilot code review
 
 More eyes on our work is always useful so let's ask Copilot to do a first pass before we do a normal peer review process. Copilot is great at catching common mistakes that are fixed by simple adjustments, but please remember to use it responsibly.
 
-> [!NOTE]  
+> [!NOTE]
 > This feature is not available in **GitHub Copilot Free**. [[docs]](https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review)
 
 ### :keyboard: Activity: Summarize and review a PR with Copilot
 
-Both **Copilot pull request summaries** and **Copilot code review** have limited access, so this activity is mostly optional. If you have access, Mona will gladly check your work though! If not, you can skip the optional steps.
+Both **Copilot pull request summaries** and **Copilot code review** have limited access, so this activity is mostly optional. If you have access, go ahead and try them though! If not, you can skip the optional steps.
 
 1. In a web browser, open another tab and navigate to your exercise repository.
 
