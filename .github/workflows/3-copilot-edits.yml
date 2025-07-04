@@ -28,7 +28,6 @@ jobs:
       ISSUE_REPOSITORY: ${{ github.repository }}
       ISSUE_NUMBER: ${{ needs.find_exercise.outputs.issue-number }}
 
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,7 +67,7 @@ jobs:
           case-sensitive: false
 
       - name: Check for participant info in styles.css
-        id: check-app-js
+        id: check-styles-css
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v1
         with:
