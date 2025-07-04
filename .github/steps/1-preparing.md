@@ -38,7 +38,7 @@ Let's start up our development environment, use copilot to learn a bit about the
 
 1. Confirm the **Repository** field is your copy of the exercise, not the original, then click the green **Create Codespace** button.
 
-   - ✅ Your copy: `/{{{full_repo_name}}}`
+   - ✅ Your copy: `/{{full_repo_name}}`
    - ❌ Original: `/skills/getting-started-with-github-copilot`
 
 1. Wait a moment for Visual Studio Code to load in your browser.
