@@ -55,7 +55,7 @@ Let's start up our development environment, use copilot to learn a bit about the
 
 1. If this is your first time using GitHub Copilot, you will need to accept the usage terms to continue.
 
-1. Enter the below prompt to ask Copilot to introduce you to the project.
+1. Enter the below prompt to ask Copilot to introduce you to the project. Use Copilot **Ask Mode** for this prompt.
 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
@@ -98,23 +98,7 @@ Great work! Now that we are familiar with the app and we know it works, let's as
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
    > ```prompt
-   > Hey copilot, how can I create and publish a new Git branch?
-   > ```
-
-   > **Tip:** This is a simple example, but Copilot is great at providing more tailored commands that might involve loops, pattern matching, file modification, and more! Don't be afraid to ask Copilot for a suggestion. Just remember it is a suggestion and you should always verify it first to be safe.
-
-1. Copilot probably gave us a command like the following. Rather than manually modify it, let's respond back to tell Copilot to use a particular name.
-
-   ```bash
-   git checkout -b {new_branch_name}
-   git push -u origin {new_branch_name}
-   ```
-
-   > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
-   >
-   > ```prompt
-   > Awesome! Thanks, Copilot! Let's use the
-   > branch name "accelerate-with-copilot".
+   > Hey copilot, how can I create and publish a new Git branch called "accelerate-with-copilot"?
    > ```
 
    > **Tip:** If Copilot doesn't give you quite what you want, you can always continue explaining what you need. Copilot will remember the conversation history for follow-up responses.

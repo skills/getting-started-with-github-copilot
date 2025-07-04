@@ -67,6 +67,16 @@ jobs:
           minimum-occurrences: 3
           case-sensitive: false
 
+      - name: Check for participant info in styles.css
+        id: check-app-js
+        continue-on-error: true
+        uses: skills/action-keyphrase-checker@v1
+        with:
+          text-file: src/static/styles.css
+          keyphrase: participant
+          minimum-occurrences: 1
+          case-sensitive: false
+
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
         with:
@@ -80,6 +90,8 @@ jobs:
             results_table:
               - description: "Check app.js for participant info"
                 passed: ${{ steps.check-app-js.outcome == 'success' }}
+              - description: "Check styles.css for participant info"
+                passed: ${{ steps.check-styles-css.outcome == 'success' }}
 
       - name: Fail job if not all checks passed
         if: contains(steps.*.outcome, 'failure')
@@ -90,7 +102,8 @@ jobs:
     needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
-      ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}
+      ISSUE_REPOSITORY: ${{ github.repository }}
+      ISSUE_NUMBER: ${{ needs.find_exercise.outputs.issue-number }}
 
     steps:
       - name: Checkout
@@ -130,6 +143,5 @@ jobs:
         run: |
           gh workflow disable "${{github.workflow}}"
           gh workflow enable "Step 4"
-          gh workflow enable "Step 4b"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
