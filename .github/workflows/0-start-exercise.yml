@@ -28,7 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [start_exercise]
     env:
-      ISSUE_URL: ${{ needs.start_exercise.outputs.issue-url }}
+      ISSUE_NUMBER: ${{ needs.start_exercise.outputs.issue-number }}
+      ISSUE_REPOSITORY: ${{ github.repository }}
 
     steps:
       - name: Checkout
@@ -41,31 +42,24 @@ jobs:
           path: exercise-toolkit
           ref: v0.6.0
 
-      - name: Build comment - add step content
-        id: build-comment
-        uses: skills/action-text-variables@v2
+      - name: Create comment - add step content
+        uses: GrantBirki/comment@v2.1.1
         with:
-          template-file: ${{ env.STEP_1_FILE }}
-          template-vars: |
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: ${{ env.STEP_1_FILE }}
+          vars: |
             login: ${{ github.actor }}
             full_repo_name: ${{ github.repository }}
 
-      - name: Create comment - add step content
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body "$ISSUE_BODY"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_BODY: ${{ steps.build-comment.outputs.updated-text }}
-
       - name: Create comment - watching for progress
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file "exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
 
-      - name: Disable current workflow and enable next one
+      - name: Enable next step workflow
         run: |
           gh workflow enable "Step 1"
         env:

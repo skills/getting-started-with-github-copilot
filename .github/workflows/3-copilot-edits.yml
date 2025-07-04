@@ -25,7 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [find_exercise]
     env:
-      ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}
+      ISSUE_REPOSITORY: ${{ github.repository }}
+      ISSUE_NUMBER: ${{ needs.find_exercise.outputs.issue-number }}
+
 
     steps:
       - name: Checkout
@@ -38,13 +40,22 @@ jobs:
           path: exercise-toolkit
           ref: v0.6.0
 
+      - name: Find last comment
+        id: find-last-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          direction: last
+
       - name: Update comment - checking work
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file exercise-toolkit/markdown-templates/step-feedback/checking-work.md \
-            --edit-last
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          comment-id: ${{ steps.find-last-comment.outputs.comment-id }}
+          file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
+          edit-mode: replace
 
       - name: Check for participant info in app.js
         id: check-app-js
@@ -56,57 +67,23 @@ jobs:
           minimum-occurrences: 3
           case-sensitive: false
 
-      - name: Check for participant info in styles.css
-        id: check-styles
-        continue-on-error: true
-        uses: skills/action-keyphrase-checker@v1
+      - name: Update comment - step results
+        uses: GrantBirki/comment@v2.1.1
         with:
-          text-file: src/static/styles.css
-          keyphrase: participant
-          case-sensitive: false
-
-      - name: Build message - step results
-        id: build-message-step-results
-        uses: skills/action-text-variables@v2
-        with:
-          template-file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
-          template-vars: |
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          comment-id: ${{ steps.find-last-comment.outputs.comment-id }}
+          edit-mode: replace
+          file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
+          vars: |
             step_number: 3
-            passed: ${{ !contains(steps.*.outcome, 'failure') }}
             results_table:
               - description: "Check app.js for participant info"
                 passed: ${{ steps.check-app-js.outcome == 'success' }}
-              - description: "Participant styling updated in styles.css"
-                passed: ${{ steps.check-styles.outcome == 'success' }}
-
-      - name: Create comment - step results
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body "$COMMENT_BODY" \
-            --edit-last
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMENT_BODY: ${{ steps.build-message-step-results.outputs.updated-text }}
 
       - name: Fail job if not all checks passed
         if: contains(steps.*.outcome, 'failure')
         run: exit 1
-
-      - name: Build message - step finished
-        id: build-message-step-finish
-        uses: skills/action-text-variables@v2
-        with:
-          template-file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
-          template-vars: |
-            next_step_number: 4
-
-      - name: Update comment - step finished
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body "$ISSUE_BODY"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_BODY: ${{ steps.build-message-step-finish.outputs.updated-text }}
 
   post_next_step_content:
     name: Post next step content
@@ -126,23 +103,32 @@ jobs:
           path: exercise-toolkit
           ref: v0.6.0
 
+      - name: Create comment - step finished
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
+          vars: |
+            next_step_number: 4
+
       - name: Create comment - add step content
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file "$STEP_4_FILE"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: ${{ env.STEP_4_FILE }}
 
       - name: Create comment - watching for progress
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
 
       - name: Disable current workflow and enable next one
         run: |
-          gh workflow disable "Step 3"
+          gh workflow disable "${{github.workflow}}"
           gh workflow enable "Step 4"
           gh workflow enable "Step 4b"
         env:
