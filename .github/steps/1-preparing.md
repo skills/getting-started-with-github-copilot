@@ -103,7 +103,7 @@ Great work! Now that we are familiar with the app and we know it works, let's as
 
    > **Tip:** If Copilot doesn't give you quite what you want, you can always continue explaining what you need. Copilot will remember the conversation history for follow-up responses.
 
-1. Now that we are happy with the command, press the `Run` button to let Copilot run it for us. No need to copy and paste!
+1. Press the `Run` button to let Copilot insert the terminal command for us. No need to copy and paste!
 
 1. After a moment, look in the VS Code lower status bar, on the left, to see the active branch. It should now say `accelerate-with-copilot`. If so, you are all done with this step!
 
