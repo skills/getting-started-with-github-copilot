@@ -11,36 +11,37 @@ permissions:
 
 env:
   # Keywords required in the issue comment to allow this workflow to run
-  REQUIRED_ISSUE_COMMENT_KEYWORDS: "@professortocat,Agent"
   STEP_3B_FILE: ".github/steps/3b-copilot-agent-mode.md"
 
 jobs:
-  required_issue_comment_keywords:
-    name: Check issue comment text for required keywords
+  check_keywords:
+    name: Check issue comment text for required keyword
     runs-on: ubuntu-latest
-
     steps:
-      - name: Stop early if missing the expected keywords, case insensitive
-        shell: bash
-        run: |
-          required_keywords=(${REQUIRED_ISSUE_COMMENT_KEYWORDS//,/ })
-          comment_body_lower=$(echo "$COMMENT_BODY" | tr '[:upper:]' '[:lower:]')
-          for keyword in "${required_keywords[@]}"; do
-            keyword_lower=$(echo "$keyword" | tr '[:upper:]' '[:lower:]')
-            if [[ ! "$comment_body_lower" =~ $keyword_lower ]]; then
-              exit 1
-            fi
-          done
-        env:
-          COMMENT_BODY: ${{ github.event.comment.body }}
+      - name: Check for professortocat reference
+        id: check_professortocat
+        uses: skills/action-keyphrase-checker@v1
+        with:
+          text: ${{ github.event.comment.body }}
+          keyphrase: "professortocat"
+          case-sensitive: false
+          minimum-occurrences: 1
+      - name: Check for alert reference
+        id: check_alert
+        uses: skills/action-keyphrase-checker@v1
+        with:
+          text: ${{ github.event.comment.body }}
+          keyphrase: "agent"
+          case-sensitive: false
+          minimum-occurrences: 1
 
   find_exercise:
     name: Find Exercise Issue
-    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.6.0
+    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.0
 
-  post_step_3b_content:
-    name: Post step 3b content
-    needs: [find_exercise, required_issue_comment_keywords]
+  post_next_step_content:
+    name: Post next step content
+    needs: [find_exercise, check_keywords]
     runs-on: ubuntu-latest
     env:
       ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}
@@ -50,14 +51,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create comment - add step content
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file "$STEP_3B_FILE"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: ${{ env.STEP_3B_FILE }}
 
       - name: Disable current workflow
         run: |
-          gh workflow disable "Step 3b"
+          gh workflow disable "${{github.workflow}}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
