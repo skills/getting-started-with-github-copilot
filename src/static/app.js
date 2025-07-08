@@ -4,16 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
-  // Function to fetch activities from API
+  // Função para buscar atividades da API
   async function fetchActivities() {
     try {
       const response = await fetch("/activities");
       const activities = await response.json();
 
-      // Clear loading message
+      // Limpa mensagens e opções antigas
       activitiesList.innerHTML = "";
+      activitySelect.innerHTML = '<option value="">-- Select an activity --</option>';
 
-      // Populate activities list
+      // Popula lista de atividades
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
@@ -25,11 +26,21 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <div class="participants-list">
+            <h5>Participantes inscritos:</h5>
+            <ul>
+              ${
+                details.participants.length > 0
+                  ? details.participants.map(email => `<li>${email}</li>`).join('')
+                  : '<li style="color:#bbb;font-style:italic;">Nenhum participante ainda</li>'
+              }
+            </ul>
+          </div>
         `;
 
         activitiesList.appendChild(activityCard);
 
-        // Add option to select dropdown
+        // Adiciona opção ao select
         const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
@@ -47,12 +58,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const email = document.getElementById("email").value;
     const activity = document.getElementById("activity").value;
+    const submitBtn = signupForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
 
     try {
       const response = await fetch(
-        `/activities/${encodeURIComponent(activity)}/signup?email=${encodeURIComponent(email)}`,
+        `/activities/${encodeURIComponent(activity)}/signup`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `email=${encodeURIComponent(email)}`,
         }
       );
 
@@ -62,6 +79,26 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        // Atualiza a lista de participantes no DOM imediatamente
+        const activityCards = document.querySelectorAll('.activity-card');
+        activityCards.forEach(card => {
+          if (card.querySelector('h4')?.textContent === activity) {
+            const ul = card.querySelector('.participants-list ul');
+            if (ul) {
+              // Adiciona o novo participante
+              const li = document.createElement('li');
+              li.textContent = email;
+              ul.appendChild(li);
+              // Remove mensagem de "Nenhum participante ainda"
+              const emptyMsg = ul.querySelector('li[style]');
+              if (emptyMsg) emptyMsg.remove();
+            }
+          }
+        });
+        // Pequeno delay para garantir atualização do backend
+        setTimeout(() => {
+          fetchActivities();
+        }, 300);
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
@@ -78,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.className = "error";
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
+    } finally {
+      submitBtn.disabled = false;
     }
   });
 
