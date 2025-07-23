@@ -1,1 +1,15 @@
+# Key Node.js dependencies (see package.json for install)
 
+canvas
+tone
+plop
+
+# Dev tools
+nodemon
+eslint
+prettier
+
+# APIs used
+
+
+# Usage: For actual installs, use 'npm install'; this file is for ecosystem reference/documentation.
