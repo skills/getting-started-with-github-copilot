@@ -1,0 +1,34 @@
+name: Comment with hint
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+jobs:
+  comment_with_hint:
+    name: Comment with hint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Get active step workflow
+        id: step-info
+        uses: skills/exercise-toolkit/actions/active-step-workflow@get-current-step-action
+
+      - uses: github/command@v2.0.1
+        id: command
+        with:
+          command: ".hint"
+          allowed_contexts: issue
+          reaction: "eyes"
+          
+      - name: Comment with hint
+        if: ${{ steps.command.outputs.continue == 'true' }}
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          file: .github/hints/${{ steps.step-info.outputs.current-step }}.md
