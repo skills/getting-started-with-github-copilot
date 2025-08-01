@@ -16,9 +16,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Get active step workflow
         id: step-info
         uses: skills/exercise-toolkit/actions/active-step-workflow@get-current-step-action
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read exercise config
         id: exercise-config
@@ -26,19 +29,21 @@ jobs:
         with:
           config: .github/skills/config.yml
 
+
       - uses: github/command@v2.0.1
         id: hint-command
         with:
           command: ".hint"
           allowed_contexts: issue
           reaction: "eyes"
+          
 
       - name: Comment with hint
         if: ${{ steps.hint-command.outputs.continue == 'true' }}
         uses: GrantBirki/comment@v2.1.1
         with:
           issue-number: ${{ github.event.issue.number }}
-          file: ${{ fromJSON(steps.exercise-config.outputs.data).steps[steps.step-info.outputs.current-step].hintFile }}
+          file: ${{ steps.exercise-config.outputs[format('steps.{0}.hintFile', steps.step-info.outputs.current-step)] }}
 
       - uses: github/command@v2.0.1
         id: title-command
@@ -52,19 +57,12 @@ jobs:
         uses: GrantBirki/comment@v2.1.1
         with:
           issue-number: ${{ github.event.issue.number }}
+          repository: ${{ github.event.repository.full_name }}
           body: |
-            ## Exercise Title
+            ## The Title of the Exercise 
 
-            Here are different ways to reference the title
+            ${{ steps.exercise-config.outputs['exercise.title'] }}
 
-            **Method 1 (bracket notation):** ${{ steps.exercise-config.outputs['exercise.title'] }}
+            _Loaded from .github/skills/config.yml_
 
-            **Method 2 (dot notation):** ${{ steps.exercise-config.outputs.exercise.title }}
-
-            **Method 3 (mixed notation):** ${{ steps.exercise-config.outputs['exercise'].title }}
-
-            **Method 4 (JSON parsing):** ${{ fromJSON(steps.exercise-config.outputs.data).exercise.title }}
-
-            ---
-
-            📚 **Current Exercise (using Method 1):** ${{ steps.exercise-config.outputs['exercise.title'] }}
+         
