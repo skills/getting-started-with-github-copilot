@@ -1,0 +1,21 @@
+exercise:
+  title: "Getting Started with GitHub Copilot"
+  introMessage: "Welcome to the exciting world of GitHub Copilot! 🚀 In this exercise, you'll unlock the potential of this AI-powered coding assistant to accelerate your development process. Let's dive in and have some fun exploring the future of coding together! 💻✨"
+
+# Next recommended exercises for learners who complete this one
+continueWith:
+  - name: "Integrate MCP with Copilot"
+    description: "Give Copilot extra capabilities by integrating Model Context Protocol (MCP)."
+    url: "https://github.com/skills/integrate-mcp-with-copilot"
+
+  - name: "Customize your GitHub Copilot Experience"
+    description: "Tailor Copilot to your project needs and customize your development workflow."
+    url: "https://github.com/skills/customize-your-github-copilot-experience"
+
+  - name: "Modernize Your Legacy Code with GitHub Copilot"
+    description: "Tackle legacy COBOL code and learn how to modernize old codebases with Copilot."
+    url: "https://github.com/skills/modernize-your-legacy-code-with-github-copilot"
+
+  - name: "Expand your team with Copilot"
+    description: "Try GitHub Copilot Coding Agent and learn how to expand your development team."
+    url: "https://github.com/skills/expand-your-team-with-copilot"
