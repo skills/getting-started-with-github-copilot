@@ -2,6 +2,16 @@ exercise:
   title: "Getting Started with GitHub Copilot"
   introMessage: "Welcome to the exciting world of GitHub Copilot! 🚀 In this exercise, you'll unlock the potential of this AI-powered coding assistant to accelerate your development process. Let's dive in and have some fun exploring the future of coding together! 💻✨"
 
+steps:
+  1:
+    hintFile: ".github/hints/1a.md"
+  2:
+    hintFile: ".github/hints/2b.md"
+  3:
+    hintFile: ".github/hints/3c.md"
+  4:
+    hintFile: ".github/hints/4d.md"
+
 # Next recommended exercises for learners who complete this one
 continueWith:
   - name: "Integrate MCP with Copilot"

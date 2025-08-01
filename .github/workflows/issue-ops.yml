@@ -38,7 +38,7 @@ jobs:
         uses: GrantBirki/comment@v2.1.1
         with:
           issue-number: ${{ github.event.issue.number }}
-          file: .github/hints/${{ steps.step-info.outputs.current-step }}.md
+          file: ${{ fromJSON(steps.exercise-config.outputs.data).steps[steps.step-info.outputs.current-step].hintFile }}
 
       - uses: github/command@v2.0.1
         id: title-command
@@ -55,7 +55,7 @@ jobs:
           body: |
             ## Exercise Title
 
-            Here are different ways to reference the title:
+            Here are different ways to reference the title
 
             **Method 1 (bracket notation):** ${{ steps.exercise-config.outputs['exercise.title'] }}
 
