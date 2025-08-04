@@ -16,6 +16,20 @@ env:
   REVIEW_FILE: ".github/steps/x-review.md"
 
 jobs:
+  load-config:
+    name: Load Exercise Configuration
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.load-config.outputs.result }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load YAML config with yq
+        id: load-config
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq eval -o=json '.github/skills/config.yml'
+
   find_exercise:
     name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.0
@@ -60,8 +74,8 @@ jobs:
 
   finish_exercise:
     name: Finish Exercise
-    needs: [find_exercise, post_review_content]
+    needs: [load-config, find_exercise, post_review_content]
     uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.7.0
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
-      exercise-title: "Getting Started with GitHub Copilot"
+      exercise-title: ${{ fromJson(needs.load-config.outputs.config).exercise.title }}
