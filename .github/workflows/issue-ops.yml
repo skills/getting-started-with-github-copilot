@@ -25,10 +25,9 @@ jobs:
 
       - name: Read exercise config
         id: exercise-config
-        uses: pietrobolcato/action-read-yaml@1.1.0
+        uses: mikefarah/yq@master
         with:
-          config: .github/skills/config.yml
-
+          cmd: yq eval -o=json '.github/skills/config.yml'
 
       - uses: github/command@v2.0.1
         id: hint-command
@@ -36,14 +35,13 @@ jobs:
           command: ".hint"
           allowed_contexts: issue
           reaction: "eyes"
-          
 
       - name: Comment with hint
         if: ${{ steps.hint-command.outputs.continue == 'true' }}
         uses: GrantBirki/comment@v2.1.1
         with:
           issue-number: ${{ github.event.issue.number }}
-          file: ${{ steps.exercise-config.outputs[format('steps.{0}.hintFile', steps.step-info.outputs.current-step)] }}
+          file: ${{ fromJson(steps.exercise-config.outputs.result).steps[steps.step-info.outputs.current-step].hintFile }}
 
       - uses: github/command@v2.0.1
         id: title-command
@@ -61,7 +59,7 @@ jobs:
           body: |
             ## The Title of the Exercise 
 
-            ${{ steps.exercise-config.outputs['exercise.title'] }}
+            ${{ fromJson(steps.exercise-config.outputs.result).exercise.title }}
 
             _Loaded from .github/skills/config.yml_
 
