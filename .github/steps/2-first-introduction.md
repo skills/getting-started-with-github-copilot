@@ -49,8 +49,6 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
    1. Press `Tab` to accept Copilot's suggestion and convert the shadow text to code.
 
-      > 💡 **Tip:** If you would like to see other suggestions, instead of pressing `Tab`, hover over the shadow text suggestion and a toolbar will appear. Use the arrows to select other suggestions or the three dots `...` and `Open Completions Panel` option to show all suggestions in a dedicated panel.
-
    <details>
    <summary>Example Results</summary><br/>
 
