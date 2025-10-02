@@ -52,16 +52,16 @@ Let's start up our development environment, use copilot to learn a bit about the
 
    <img width="350" alt="python extension for VS Code" src="https://github.com/user-attachments/assets/3040c0f5-1658-47e2-a439-20504a384f77" />
 
-1. At the top of VS Code, locate and click the **Copilot icon** to open a Copilot Chat panel.
+1. At the top of VS Code, locate and click the **Copilot Chat icon** to open a Copilot Chat side panel.
 
-   <img width="150" alt="image" src="https://github.com/user-attachments/assets/5e64db46-95cb-415d-badc-b6b8677f10c1" />
+   <img width="150" alt="image" src="https://github.com/user-attachments/assets/abf584e9-ef68-4725-8b22-4803805e6d55" />
 
-1. If this is your first time using GitHub Copilot, you will need to accept the usage terms to continue.
+   > 🪧 **Note:** If this is your first time using GitHub Copilot, you will need to accept the usage terms to continue.
 
 1. Make sure you are in **Ask Mode** for our first interaction
 
-   <!-- <img width="350" alt="screenshot showing Ask Mode selection in Copilot Chat" src="PLACEHOLDER_FOR_SCREENSHOT" /> -->
 
+   <img width="350" alt="screenshot showing Ask Mode selection in Copilot Chat" src="https://github.com/user-attachments/assets/fb1d7cac-2d39-4199-b5d9-0f3dfcfb3bcd" />
 1. Enter the below prompt to ask Copilot to introduce you to the project.
 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
