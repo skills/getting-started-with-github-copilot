@@ -33,7 +33,7 @@ In our previous steps, we used features of Copilot that require more hands-on gu
    - `src/static/index.html`
    - `src/static/styles.css`
 
-   > **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
+   > 💡 **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
 
 1. Ask Copilot to update our project to display the current participants of activities. Wait a moment for the edit suggestions to arrive and be applied.
 
@@ -65,7 +65,7 @@ In our previous steps, we used features of Copilot that require more hands-on gu
 
    <img width="350" alt="Activity card with participant info" src="https://github.com/user-attachments/assets/c4d56187-4791-4c8e-87d7-d5ce7cdc0bee" />
 
-   > **Note:** Your activity card may look different. Copilot won't always produce the same results.
+   > 🪧 **Note:** Your activity card may look different. Copilot won't always produce the same results.
 
    <details>
    <summary>Need help? 🤷</summary><br/>
@@ -79,7 +79,7 @@ In our previous steps, we used features of Copilot that require more hands-on gu
 
 1. Now that we have confirmed our changes are good, use the panel to cycle through each suggested edit and press **Keep** to apply the change.
 
-   > **Tip:** You can accept the changes directly, modify them, or provide additional instruction to refine them using the chat interface.
+   > 💡 **Tip:** You can accept the changes directly, modify them, or provide additional instruction to refine them using the chat interface.
 
 1. With our new feature complete, please **commit** and **push** the changes to GitHub.
 

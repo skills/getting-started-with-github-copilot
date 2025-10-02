@@ -64,7 +64,7 @@ Let's start up our development environment, use copilot to learn a bit about the
    > What should I do to run it?
    > ```
 
-   > **Note**: It is not necessary to follow Copilot's recommended instructions. We have already prepared the environment for you.
+   > 🪧 **Note:** It is not necessary to follow Copilot's recommended instructions. We have already prepared the environment for you.
 
    <details>
    <summary>What is @workspace?</summary>
@@ -89,7 +89,7 @@ Great work! Now that we are familiar with the app and we know it works, let's as
 
 1. In VS Code's bottom panel, select the **Terminal** tab and on the right side click the plus `+` sign to create a new terminal window.
 
-   > **Note:** This will avoid stopping the existing debug session that is hosting our web application service.
+   > 🪧 **Note:** This will avoid stopping the existing debug session that is hosting our web application service.
 
 1. Within the new terminal window use the keyboard shortcut `Ctrl + I` (windows) or `Cmd + I` (mac) to bring up **Copilot's Terminal Inline Chat**.
 
@@ -101,7 +101,7 @@ Great work! Now that we are familiar with the app and we know it works, let's as
    > Hey copilot, how can I create and publish a new Git branch called "accelerate-with-copilot"?
    > ```
 
-   > **Tip:** If Copilot doesn't give you quite what you want, you can always continue explaining what you need. Copilot will remember the conversation history for follow-up responses.
+   > 💡 **Tip:** If Copilot doesn't give you quite what you want, you can always continue explaining what you need. Copilot will remember the conversation history for follow-up responses.
 
 1. Press the `Run` button to let Copilot insert the terminal command for us. No need to copy and paste!
 

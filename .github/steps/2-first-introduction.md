@@ -48,7 +48,7 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
    1. Press `Tab` to accept Copilot's suggestion and convert the shadow text to code.
 
-      > **Tip:** If you would like to see other suggestions, instead of pressing `Tab`, hover over the shadow text suggestion and a toolbar will appear. Use the arrows to select other suggestions or the three dots `...` and `Open Completions Panel` option to show all suggestions in a dedicated panel.
+      > 💡 **Tip:** If you would like to see other suggestions, instead of pressing `Tab`, hover over the shadow text suggestion and a toolbar will appear. Use the arrows to select other suggestions or the three dots `...` and `Open Completions Panel` option to show all suggestions in a dedicated panel.
 
    <details>
    <summary>Example Results</summary><br/>
@@ -89,7 +89,7 @@ In new project developments, it's often helpful to have some realistic looking f
 
 1. Click on any of the related lines and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
 
-   > **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
+   > 💡 **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
 
 1. Enter the following prompt text and press enter or the **Send and Dispatch** button.
 
@@ -175,7 +175,7 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
 
 1. In the left sidebar, select the `Source Control` tab.
 
-   > **Tip:** Opening a file from the source control area will show the differences to the original rather than simply opening it.
+   > 💡 **Tip:** Opening a file from the source control area will show the differences to the original rather than simply opening it.
 
 1. Find the `app.py` file and press the `+` sign to collect your changes together in the staging area.
 
