@@ -6,7 +6,7 @@ In this exercise, you will be using different GitHub Copilot features to work on
 
 <img width="600" alt="screenshot of Mergington High School WebApp" src="https://github.com/user-attachments/assets/472398fd-1aa1-4084-b443-4e242deb30d9" />
 
-### What is GitHub Copilot?
+### 📖 Theory: Getting to know GitHub Copilot
 
 <img width="150" align="right" alt="copilot logo" src="https://github.com/user-attachments/assets/4d22496d-850b-4785-aafe-11cba03cd5f2" />
 
@@ -21,12 +21,10 @@ Your most common interactions will likely be:
 - **Copilot - Edit Mode**: Similar to Ask mode, but less conversational. Copilot will make changes to your selected files to implement your request.
 - **Copilot - Agent Mode**: Copilot will run iteratively until it achieves your request. It will select context, make code changes, run terminal commands, run tools, and most importantly review its work to make adjustments.
 
-> [!TIP]
-> You can learn more about current and upcoming features in the [GitHub Copilot Features](https://docs.github.com/en/copilot/about-github-copilot/github-copilot-features) documentation. You can also select different [models](https://docs.github.com/en/github-models) and make your own [extensions](https://github.com/features/copilot/extensions), but that's for a different lesson!
-
-### How can I use GitHub Copilot?
-
 As you work, you'll find GitHub Copilot can help out in several places across the website and in your favorite coding environments such as VS Code, Jet Brains, and Xcode! For today's coding though, we will practice with VS Code in a pre-configured development environment known as [Codespace](https://github.com/features/codespaces).
+
+> [!TIP]
+> You can learn more about current and upcoming features in the [GitHub Copilot Features](https://docs.github.com/en/copilot/about-github-copilot/github-copilot-features) documentation.
 
 ### :keyboard: Activity: Get a project intro from Copilot Chat
 
