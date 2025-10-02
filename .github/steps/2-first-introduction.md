@@ -80,11 +80,9 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
 In new project developments, it's often helpful to have some realistic looking fake data for testing. Copilot is excellent at this task, so let's add some more sample activities and introduce another way to interact with Copilot using **Inline Chat**
 
-**Inline Chat** and the **Copilot Chat** panel are very similar tools, but with slightly different automatic context. As such, while Copilot Chat is good at explaining about the project, inline chat might feel more natural for asking about a particular line or function.
+**Inline Chat** and the **Copilot Chat** panel are similar, but differ in scope: Copilot Chat handles broader, multi-file or exploratory questions; Inline Chat is faster when you want targeted help on the exact line or block in front of you.
 
-1. If not already open, open the `src/app.py` file.
-
-1. Near the top (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
+1. Near the top of the `src/app.py` file (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
 
 1. Click on any of the related lines and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
 
