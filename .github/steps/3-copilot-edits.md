@@ -8,16 +8,20 @@ Copilot **Edit Mode** and **Agent Mode** both let you apply **natural‑language
 
 In this step we will focus on **Edit Mode** and explore **Agent Mode** in the next step.
 
-
-#### When to use Edit Mode
-
 Edit Mode is best used for **well defined** tasks where you **know the scope** of the needed changes.
 
-Edit Mode is not ideal for **vague, exploratory, or multi‑phase tasks**
-> In the next step you will see that Agent Mode works better in those scenarios
+#### How Edit Mode works
 
+```mermaid
+flowchart LR
+   A[Select Context Files] --> B[Prompt Copilot]
+   B --> C[Proposed Changes]
+   C --> D{Review Change}
+   D --> E[Accept]
+   D --> F[Discard]
+   D -->|Refine Prompt| B
 
-#### How it works
+```
 
 1. **Set Context**: Select files that Copilot should consider in it's changes
 1. **Prompt Copilot**: Use natural language to describe the required changes.
@@ -25,10 +29,11 @@ Edit Mode is not ideal for **vague, exploratory, or multi‑phase tasks**
 1. **Accept or Discard**: Review each suggested edit and choose which to keep.
 1. **Iterate**: If needed, provide follow-up instructions to refine the changes.
 
-
 ### :keyboard: Activity: Use Copilot to add a new feature! :rocket:
 
-1. If the Copilot Chat panel is not visible, please reopen it.
+Our website lists activities, but it's keeping the guest list secret 🤫 
+
+Let's use Copilot to change the website to display signed up students under each activity!
 
 1. At the bottom of Copilot Chat window, use the dropdown to switch to **Edit** mode.
 
@@ -92,11 +97,6 @@ Edit Mode is not ideal for **vague, exploratory, or multi‑phase tasks**
 
 1. Wait a moment for Mona to check your work, provide feedback, and share the final lesson. Almost done!
 
-1. (optional) If you would like an ungraded bonus step to briefly introduce Agent mode, **add an issue comment** asking **@professortocat** about Copilot Agent mode. 🚀
-
-   ```txt
-   Hey @professortocat, Agent mode sounds pretty cool. Can you please tell me more about it?
-   ```
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
