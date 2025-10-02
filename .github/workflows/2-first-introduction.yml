@@ -30,10 +30,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get response templates
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
@@ -46,7 +46,6 @@ jobs:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           direction: last
-
 
       - name: Update comment - checking work
         uses: GrantBirki/comment@v2.1.1
@@ -87,7 +86,6 @@ jobs:
         if: contains(steps.*.outcome, 'failure')
         run: exit 1
 
-
   post_next_step_content:
     name: Post next step content
     needs: [find_exercise, check_step_work]
@@ -115,7 +113,6 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           vars: |
             next_step_number: 3
-
 
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1
