@@ -7,9 +7,9 @@ In the previous step, GitHub Copilot was able to help us onboard to the project.
 We’ve discovered that something’s off in the signup flow.
 Students can currently register for the same activity **more than once**! Let’s see how far Copilot can take us in uncovering the cause and shaping a clean fix.
 
-Before we dive in, a quick primer on how Copilot works 🧑‍🚀
+Before we dive in, a quick primer on how Copilot works. 🧑‍🚀
 
-### How does Copilot work?
+### 📖 Theory: How Copilot works
 
 In short, you can think of Copilot like a very specialized coworker. To be effective with them, you need to provide them background (context) and clear direction (prompts). Additionally, different people are better at different things because of their unique experiences (models).
 
