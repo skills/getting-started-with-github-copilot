@@ -16,7 +16,7 @@ GitHub Copilot has been proven to increase developer productivity and accelerate
 
 As you work in your IDE, you'll most often interact with GitHub Copilot in the following ways:
 
-|  Interaction Mode       | 📝 Description                                                                                                                                      | 🎯 Best For                                                                                                      |
+| Interaction Mode          | 📝 Description                                                                                                                                      | 🎯 Best For                                                                                                      |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | **⚡ Inline suggestions** | AI-powered code suggestions that appear as you type, offering context-aware completions from single lines to entire functions.                      | Completion of the current line, sometimes a whole new block of code                                              |
 | **💬 Ask Mode**           | Optimized for answering questions about your codebase, coding, and general technology concepts.                                                     | Understanding how code works, brainstorming ideas, asking questions                                              |
@@ -58,7 +58,11 @@ Let's start up our development environment, use copilot to learn a bit about the
 
 1. If this is your first time using GitHub Copilot, you will need to accept the usage terms to continue.
 
-1. Enter the below prompt to ask Copilot to introduce you to the project. Use Copilot **Ask Mode** for this prompt.
+1. Make sure you are in **Ask Mode** for our first interaction
+
+   <!-- <img width="350" alt="screenshot showing Ask Mode selection in Copilot Chat" src="PLACEHOLDER_FOR_SCREENSHOT" /> -->
+
+1. Enter the below prompt to ask Copilot to introduce you to the project.
 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
