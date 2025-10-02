@@ -6,6 +6,7 @@ _Congratulations, you've completed this exercise and learned a lot about GitHub 
 
 Here's a recap of your accomplishments:
 
+<!-- TODO: UPDATE WITH AGENT MODE -->
 - Set up your GitHub Codespace and environment.
 - Learned how to use Copilot inline suggestions, Chat, and Edits.
 - Used Copilot to generate commit messages and pull request summaries.

@@ -1,18 +1,41 @@
 ### :keyboard: Bonus Activity - GitHub Copilot Agent Mode
 
-> [!NOTE]
-> This activity is optional and not graded.
+> 🪧 **Note:** This bonus activity is optional and not graded.
 
-### What is "Agent" Mode?
+### 📖 Theory: What is Copilot Agent Mode?
 
-**Agent** mode enhances Copilot by automatically providing it feedback, typically the types of feedback you would provide after reviewing Copilot's suggested edits.
+Copilot **Agent Mode** extends beyond single-pass edits: it can plan, execute, inspect results (including build/terminal output), and iteratively refine its own work without you re‑prompting each micro-step.
 
-**Agent** mode gives Copilot a feedback loop, enabling it to inspect its own results for issues, bugs, inconsistency, etc. in the code and even the terminal! This allows it to automatically revise its work in many situations. Similarly this means **Agent** mode can
-typically handle more complex and multi-step tasks.
+**How it differs from Edit Mode** (at a glance):
 
-That's just a brief intro and there is much more to learn, but that's for a dedicated future exercise. (hint)
+| Ask / Inline Chat   | Edit Mode                       | Agent Mode                              |
+| ------------------- | ------------------------------- | --------------------------------------- |
+| One answer/snippet  | Multi‑file patch (single cycle) | Multi‑step adaptive workflow            |
+| You curate context  | You supply context files        | Agent may add/read files & run commands |
+| No self‑review loop | Minimal implicit review         | Explicit feedback & retry loop          |
 
-Now, let's give **Agent** mode a try! 👩‍🚀
+#### Key capabilities
+
+- Feedback loop: can detect errors or incomplete changes and attempt fixes automatically.
+- Multi-step reasoning: chains several edit + verify cycles toward a broader goal.
+- Tool usage: may run commands / examine terminal output (depending on your environment & permissions).
+- Cross-file consistency: attempts to coordinate backend + frontend or related modules.
+
+#### Good use cases
+
+- Coordinated refactors (model + route + tests)
+- Adding “glue” code across layers
+- Resolving a bug that requires reading logs or compiler errors
+
+#### Limitations / cautions
+
+- Can produce more changes than you expect—always review the diff before keeping.
+- Longer runs may drift; give it concise, outcome-focused follow-ups (“The API returns 500; inspect server logs and fix”).
+- Side-effectful commands (like installing services) may fail or leave partial state—treat them as experiments.
+
+> 💡 **Tip:** If Agent Mode starts to feel “lost,” stop, accept/undo what’s useful, and start a fresh Agent session with a clearer goal.
+
+Now, let's give **Agent Mode** a try! 👩‍🚀
 
 ### :keyboard: Activity: Use Agent mode to add functional "unregister" buttons
 

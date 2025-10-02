@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 env:
-  STEP_4_FILE: ".github/steps/4-copilot-on-github.md"
+  STEP_4_FILE: ".github/steps/4-copilot-agent-mode.md"
 
 jobs:
   find_exercise:
