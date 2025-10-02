@@ -2,11 +2,12 @@
 
 In the previous step, GitHub Copilot was able to help us onboard to the project. That alone is a huge time saver, but now let's get some work done!
 
-We recently learned there is a bug where students are registering for the same activities twice. That simply isn't acceptable, so let's get it fixed!
+:bug: **THERE IS A BUG ON THE WEBSITE** :bug:
 
-Unfortunately, we were given little information to solve this problem. So, let's enlist Copilot to help find the problem area and get a potential solution made.
+We’ve discovered that something’s off in the signup flow.
+Students can currently register for the same activity **more than once**! Let’s see how far Copilot can take us in uncovering the cause and shaping a clean fix.
 
-But before we do that, let's learn a bit more about Copilot! 🧑‍🚀
+Before we dive in, a quick primer on how Copilot works 🧑‍🚀
 
 ### How does Copilot work?
 
