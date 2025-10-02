@@ -32,13 +32,6 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
    > Where could this bug be coming from?
    > ```
 
-   <details>
-   <summary>What is @workspace?</summary>
-
-   Great question! This is a specialized [chat participant](https://docs.github.com/en/copilot/using-github-copilot/copilot-chat/github-copilot-chat-cheat-sheet?tool=vscode#chat-participants) that will explore the project repository and try to include relevant additional context.
-
-   </details>
-
 1. Now that we know the issue is in the `src/app.py` file and the `signup_for_activity` method, let's follow Copilot's recommendation and go fix it (semi-manually). We'll start with a comment and let Copilot finish the correction.
 
    1. In VS Code, select the file **Explorer tab** to show the project files and open the `src/app.py` file.

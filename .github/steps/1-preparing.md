@@ -68,7 +68,9 @@ Let's start up our development environment, use copilot to learn a bit about the
 
    <details>
    <summary>What is @workspace?</summary>
-   Nice job noticing the details, but let's just use it for now. 🤓 We promise to explain in the next step.
+
+   Great question! This is a specialized [chat participant](https://docs.github.com/en/copilot/using-github-copilot/copilot-chat/github-copilot-chat-cheat-sheet?tool=vscode#chat-participants) that will explore the project repository and try to include relevant additional context.
+
    </details>
 
 1. Now that we know a bit more about the project, let's actually try running it! In the left sidebar, select the `Run and Debug` tab and then press the **Start Debugging** icon.
@@ -85,9 +87,7 @@ Let's start up our development environment, use copilot to learn a bit about the
 
 Great work! Now that we are familiar with the app and we know it works, let's ask copilot for help starting a branch so we can do some customizing.
 
-1. If not already there, return to VS Code.
-
-1. In the bottom panel, select the **Terminal** tab. On the right side, click the plus `+` sign to create a new terminal window.
+1. In VS Code's bottom panel, select the **Terminal** tab and on the right side click the plus `+` sign to create a new terminal window.
 
    > **Note:** This will avoid stopping the existing debug session that is hosting our web application service.
 
