@@ -1,23 +1,30 @@
-## Step 3: Getting work done even _faster_ with Copilot Edits
+## Step 3: Getting work done even _faster_ with Copilot Edit Mode
 
-In our previous steps, we used features of Copilot that require more hands-on guidance and they produced mostly localized results. Now, we will explore Copilot Edits, a feature that allows working more holistically on our repo.
+In our previous steps, we used features of Copilot that require more hands-on guidance and they produced mostly localized results. Now, we will explore Copilot **Edit Mode**, a feature that allows working more holistically on our repo.
 
-[Copilot - Edit Mode](https://code.visualstudio.com/docs/copilot/copilot-edits) is an AI-powered code editing session to make changes across **multiple files** using **natural language**, and applies the edits directly in the editor, where you can review them in-place, with the full context of the surrounding code.
+### 📖 Theory: Copilot Edit Mode
 
-#### Key features
+Copilot **Edit Mode** and **Agent Mode** both let you apply **natural‑language** driven changes across **multiple files**, however there are some differences between them.
 
-- **Multi-file Editing**: Copilot Edits can make changes across multiple files in your workspace.
-- **Iterative Workflow**: Designed for fast iteration, allowing you to review, accept, or discard AI-generated code.
-- **In-place Edits**: Shows generated code directly in your editor, providing a code review-like flow.
-- **Working Set**: Allows you to define which files the edits should be applied to.
+In this step we will focus on **Edit Mode** and explore **Agent Mode** in the next step.
+
+
+#### When to use Edit Mode
+
+Edit Mode is best used for **well defined** tasks where you **know the scope** of the needed changes.
+
+Edit Mode is not ideal for **vague, exploratory, or multi‑phase tasks**
+> In the next step you will see that Agent Mode works better in those scenarios
+
 
 #### How it works
 
-1. **Set Context**: Select files to be in the working set.
-1. **Provide Instructions**: Use natural language to describe the required changes.
+1. **Set Context**: Select files that Copilot should consider in it's changes
+1. **Prompt Copilot**: Use natural language to describe the required changes.
 1. **Review Changes**: See proposed changes in-place in your code.
 1. **Accept or Discard**: Review each suggested edit and choose which to keep.
 1. **Iterate**: If needed, provide follow-up instructions to refine the changes.
+
 
 ### :keyboard: Activity: Use Copilot to add a new feature! :rocket:
 
@@ -55,9 +62,9 @@ In our previous steps, we used features of Copilot that require more hands-on gu
    <details>
    <summary>Need help? 🤷</summary><br/>
 
-   Remember, to add the relevant files to the working set.
+   Remember to add the relevant context files (drag them in or use Add Context...).
 
-   ![screenshot of working set](https://github.com/user-attachments/assets/d3eadc8e-583e-4a28-9e82-be128eab843b)
+   ![screenshot of context files list](https://github.com/user-attachments/assets/d3eadc8e-583e-4a28-9e82-be128eab843b)
 
    </details>
 
