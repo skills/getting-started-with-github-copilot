@@ -1,4 +1,4 @@
-## Step 4: Using GitHub Copilot within a pull request
+## Step 5: Using GitHub Copilot within a pull request
 
 Congratulations! You are finished with coding for this exercise (and VS Code). Now it's time to merge our work. :tada: To wrap up, let's learn about two limited-access Copilot features that can speed up our pull requests!
 
