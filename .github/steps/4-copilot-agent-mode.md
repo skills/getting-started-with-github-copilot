@@ -39,11 +39,10 @@ If you don't get the desired results, you can try other models or provided follo
 
 1. Open the **Copilot** chat panel and use the dropdown menu to switch to **Agent** mode.
 
-
    <img width="250" alt="agent mode" src="https://github.com/user-attachments/assets/9bb85530-77a1-4d47-86b2-99769ce197db" />
 
 1. Click on the **Tools** icon and explore all Tools currently available to Copilot Agent Mode.
-   
+
    <img width="250"  alt="tools icon" src="https://github.com/user-attachments/assets/8f73400a-2647-4b28-b52b-721b8cf348d8" />
 
 
@@ -55,6 +54,8 @@ If you don't get the desired results, you can try other models or provided follo
    > #codebase Please add a delete icon next to each participant and hide the bullet points.
    > When clicked, it will unregister that participant from the activity.
    > ```
+
+   The `#codebase` tool is used by Copilot to find relevant files, code chunks that are relevant to the task at hand.
 
    > 🪧 **Note:** In this lab we explicitly include the `#codebase` tool to get the most repeatable results.
    > Feel free to try the prompt **without** `#codebase` and observe whether Agent Mode decides to gather broader project context on its own.
