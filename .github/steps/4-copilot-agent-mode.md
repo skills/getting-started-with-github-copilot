@@ -25,7 +25,7 @@ Agent mode uses tools to accomplish specialized tasks while processing a user re
 - Running tests or terminal commands
 
 > [!TIP]
-> While VS Code provides many built‑in tools you can also provide Agent Mode more domain‑specific powers through **MCP tools**.
+> While VS Code provides many built‑in tools, you can also provide Agent Mode more domain‑specific powers through **MCP tools**.
 >
 > Read more on [MCP servers](https://code.visualstudio.com/docs/copilot/customization/mcp-servers) and [GitHub MCP Server](https://github.com/github/github-mcp-server)
 
