@@ -2,6 +2,8 @@
 
 Congratulations! You are finished with coding for this exercise (and VS Code). Now it's time to merge our work. :tada: To wrap up, let's learn about two limited-access Copilot features that can speed up our pull requests!
 
+### 📖 Theory: GitHub Copilot for pull requests
+
 #### Copilot pull request summaries
 
 Typically, you would review your notes and commit messages then summarize them for your pull request description. This may take some time, especially if commit messages are inconsistent or code is not documented well. Fortunately, Copilot can consider all changes in the pull request and provide the important highlights, and with references too!
@@ -26,9 +28,9 @@ Both **Copilot pull request summaries** and **Copilot code review** have limited
 
    - **base:** `main`
    - **compare:** `accelerate-with-copilot`
-   - **title:** `Add registration validation and more activities`
+   - **title:** `Improve student activity registration system`
 
-1. (Optional) In the **Add a description** area, enter edit mode if needed, then click the **Copilot actions** icon and **Summary** action. After a moment, Copilot will add a description. :memo:
+1. (Optional) In the PR description toolbar click the **Copilot** icon and **Summary** action. After a moment, Copilot will add a description based on your changes. :memo:
 
    <img alt="Copilot summarize button " width="300px" src="https://github.com/user-attachments/assets/3fc5fab4-db03-4ab8-8a16-cdd71ec2ded0">
 

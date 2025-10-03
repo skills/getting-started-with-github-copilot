@@ -91,4 +91,4 @@ Your backend is now feature‑rich—but still has zero test coverage. Use Copil
 
    > 🪧 **Note:** Copilot may one-shot this with the initial prompt or need more guidance from you.
 
-1. Once the tests are passing - **commit** and **push** all changes to your `accelerate-with-copilot` branch to get a final review from Mona!
+1. Once the tests are passing - **commit** and **push** all changes to your `accelerate-with-copilot` branch to progress to the last step! Almost done!
