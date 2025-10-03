@@ -45,6 +45,8 @@ Let's use Copilot to change the website to display signed up students under each
    - `src/static/index.html`
    - `src/static/styles.css`
 
+   <img width="400" alt="image showing files added to context" src="https://github.com/user-attachments/assets/8026a86b-b350-4b98-bf4f-764b61d157e7" />
+
    > 💡 **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
 
 1. Ask Copilot to update our project to display the current participants of activities. Wait a moment for the edit suggestions to arrive and be applied.
@@ -64,14 +66,6 @@ Let's use Copilot to change the website to display signed up students under each
 
       <img width="250" alt="edit navigation panel" src="https://github.com/user-attachments/assets/a84965a5-2f43-4c93-a814-0fdeb3a06494" />
 
-   <details>
-   <summary>Need help? 🤷</summary><br/>
-
-   Remember to add the relevant context files (drag them in or use Add Context...).
-
-   ![screenshot of context files list](https://github.com/user-attachments/assets/d3eadc8e-583e-4a28-9e82-be128eab843b)
-
-   </details>
 
 1. Before we simply accept the changes, please check our website again and verify everything is updated as expected. Here is an example of an updated activity card. You may need to restart the app or refresh the page.
 
