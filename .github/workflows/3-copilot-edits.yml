@@ -1,4 +1,4 @@
-name: Step 3 # Copilot edits
+name: Step 3
 
 on:
   push:

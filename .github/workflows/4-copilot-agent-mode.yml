@@ -1,4 +1,4 @@
-name: Step 4 # Copilot Agent Mode
+name: Step 4
 
 on:
   push:

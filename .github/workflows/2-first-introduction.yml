@@ -1,5 +1,4 @@
-name: Step 2 # Copilot chat
-
+name: Step 2
 on:
   push:
     branches:

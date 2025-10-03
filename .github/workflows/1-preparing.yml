@@ -1,4 +1,4 @@
-name: Step 1 # Preparing to make your extension
+name: Step 1
 
 on:
   push:
