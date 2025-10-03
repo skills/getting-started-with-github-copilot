@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - "accelerate-with-copilot"
-    paths:
-      - "src/static/**"
 
 permissions:
   contents: read
