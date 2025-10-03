@@ -55,8 +55,8 @@ If you don't get the desired results, you can try other models or provided follo
    > When clicked, it will unregister that participant from the activity.
    > ```
 
-   > 🪧 **Note:**  In this lab we explicitly include the `#codebase` tool to get the most repeatable results.
-    Feel free to try the prompt **without** `#codebase` and observe whether Agent Mode decides to gather broader project context on its own.
+   > 🪧 **Note:** In this lab we explicitly include the `#codebase` tool to get the most repeatable results.
+   > Feel free to try the prompt **without** `#codebase` and observe whether Agent Mode decides to gather broader project context on its own.
 
 1. When Copilot is finished, restart the debugger and inspect the results. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback to refined the results.
 
@@ -71,40 +71,23 @@ If you don't get the desired results, you can try other models or provided follo
 
 1. When Copilot is finished, inspect the results. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback.
 
-### :keyboard: Activity: Use Agent mode to change the database! 🧑‍🚀
+### :keyboard: Activity: Use Agent mode to get test coverage 🧑‍🚀
 
-Just for fun, let's try something even more difficult and open-ended to see what happens!
+Your backend is now feature‑rich—but still has zero test coverage. Use Copilot **Agent Mode** to add test dependencies, scaffold starter tests and run them.
 
-> [!TIP]
-> In our experiments, we got working results most of the time, but not every time.
-> You might try other models or pausing to provide Copilot feedback.
+1. Ask Copilot in **Agent mode** to set up and run tests for your backend.
 
-1. (optional) If it is available for you, you might try another model such as `Claude 3.5 Sonnet`.
-
-   <img width="250" alt="image" src="https://github.com/user-attachments/assets/16125b88-8428-4f62-9c1b-5761e26ed888" />
-
-1. Ask Copilot to install a local database service.
-
-   > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
+   > ![Static Badge](https://img.shields.io/badge/-Prompt-placeholder?style=social&logo=github%20copilot)
    >
    > ```prompt
-   > Please install a local mongodb server for development reasons.
-   > Afterward, run a command that lists the collections to verify the service is active and working.
-   > Do not modify our program yet.
+   > Add fastapi tests using pytest in a new tests directory and run them.
+   > Make sure to add any new dependencies to requirements.txt
    > ```
 
-   - We purposely made the default development environment not ready for installing a local MongoDB server.
-   - You will see Copilot make mistakes, analyze the error messages, and ask to run various extra commands to make the environment suitable. Nice!
+1. As Copilot works on your prompt, different tools might need your approval.
 
-1. Ask Copilot to change our app to use the database service. 🤯
+   **🎯 Goal: Get all tests passing (green) — aim for a clean run! ✅**
 
-   > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
-   >
-   > ```prompt
-   > #codebase I don't like that we are storing the data in memory.
-   > Let's switch to using mongodb.
-   > For now use the local development instance.
-   > Please pre-populate the database with the existing hardcoded json activities, keeping the activity name as the key.
-   > ```
+   > 🪧 **Note:** Copilot may one-shot this with the initial prompt or need more guidance from you.
 
-1. That's your preview for now. We hope it was fun and please check back soon on the [Skills page](https://skills.github.com) for a dedicated exercise to explore even more of Agent Mode! 🧑‍🚀 🚀
+1. Once the tests are passing - **commit** and **push** all changes to your `accelerate-with-copilot` branch to get a final review from Mona!
