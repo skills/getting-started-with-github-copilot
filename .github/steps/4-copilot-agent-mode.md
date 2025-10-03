@@ -39,12 +39,13 @@ If you don't get the desired results, you can try other models or provided follo
 
 1. Open the **Copilot** chat panel and use the dropdown menu to switch to **Agent** mode.
 
-   <!-- TODO: Add screenshot  -->
 
-   <!-- <img width="250" alt="image" src="https://github.com/user-attachments/assets/8c537e2a-d89a-4908-8d35-77c7f0830805" /> -->
+   <img width="250" alt="agent mode" src="https://github.com/user-attachments/assets/9bb85530-77a1-4d47-86b2-99769ce197db" />
 
 1. Click on the **Tools** icon and explore all Tools currently available to Copilot Agent Mode.
-   <!-- TODO: Add screenshot  -->
+   
+   <img width="250"  alt="tools icon" src="https://github.com/user-attachments/assets/8f73400a-2647-4b28-b52b-721b8cf348d8" />
+
 
 1. Time for our test! Let's ask Copilot to add functionality for removing participants.
 
