@@ -1,39 +1,33 @@
-### :keyboard: Bonus Activity - GitHub Copilot Agent Mode
-
-> 🪧 **Note:** This bonus activity is optional and not graded.
+## Step 4: Engage Hyperdrive - Copilot Agent Mode 🚀
 
 ### 📖 Theory: What is Copilot Agent Mode?
 
-Copilot **Agent Mode** extends beyond single-pass edits: it can plan, execute, inspect results (including build/terminal output), and iteratively refine its own work without you re‑prompting each micro-step.
+Copilot [agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode) is the next evolution in AI-assisted coding. Acting as an autonomous peer programmer, it performs multi-step coding tasks at your command.
 
-**How it differs from Edit Mode** (at a glance):
+Copilot Agent Mode responds to compile and lint errors, monitors terminal and test output, and auto-corrects in a loop until the task is completed.
 
-| Ask / Inline Chat   | Edit Mode                       | Agent Mode                              |
-| ------------------- | ------------------------------- | --------------------------------------- |
-| One answer/snippet  | Multi‑file patch (single cycle) | Multi‑step adaptive workflow            |
-| You curate context  | You supply context files        | Agent may add/read files & run commands |
-| No self‑review loop | Minimal implicit review         | Explicit feedback & retry loop          |
+#### Edit Mode vs Agent Mode (at a glance)
 
-#### Key capabilities
+| Aspect         | ✏️ Edit Mode                      | 👩‍🚀 Agent Mode                                                                    |
+| -------------- | --------------------------------- | -------------------------------------------------------------------------------- |
+| Context scope  | Only the files you explicitly add | May read/add additional files & surfaces as needed                               |
+| Self‑review    | Minimal (you drive iteration)     | Built‑in feedback & retry loop on errors/failures                                |
+| Change scope   | Highly scoped & surgical          | Broader; may touch related layers for consistency                                |
+| When to choose | You know exactly what to change   | Goal is broader or uncertain; requires exploration                               |
+| Tool calling   | None (you run commands manually)  | Can invoke tools (read/edit files, run commands, inspect terminal & test output) |
 
-- Feedback loop: can detect errors or incomplete changes and attempt fixes automatically.
-- Multi-step reasoning: chains several edit + verify cycles toward a broader goal.
-- Tool usage: may run commands / examine terminal output (depending on your environment & permissions).
-- Cross-file consistency: attempts to coordinate backend + frontend or related modules.
+#### 🧰 Agent Mode Tools
 
-#### Good use cases
+Agent mode uses tools to accomplish specialized tasks while processing a user request. Examples of such tasks are:
 
-- Coordinated refactors (model + route + tests)
-- Adding “glue” code across layers
-- Resolving a bug that requires reading logs or compiler errors
+- Finding relevant files to complete your prompt
+- Fetching contents of a webpage
+- Running tests or terminal commands
 
-#### Limitations / cautions
-
-- Can produce more changes than you expect—always review the diff before keeping.
-- Longer runs may drift; give it concise, outcome-focused follow-ups (“The API returns 500; inspect server logs and fix”).
-- Side-effectful commands (like installing services) may fail or leave partial state—treat them as experiments.
-
-> 💡 **Tip:** If Agent Mode starts to feel “lost,” stop, accept/undo what’s useful, and start a fresh Agent session with a clearer goal.
+> [!TIP]
+> While VS Code provides many built‑in tools you can also provide Agent Mode more domain‑specific powers through **MCP tools**.
+>
+> Read more on [MCP servers](https://code.visualstudio.com/docs/copilot/customization/mcp-servers) and [GitHub MCP Server](https://github.com/github/github-mcp-server)
 
 Now, let's give **Agent Mode** a try! 👩‍🚀
 
