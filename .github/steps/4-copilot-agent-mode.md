@@ -33,11 +33,18 @@ Now, let's give **Agent Mode** a try! 👩‍🚀
 
 ### :keyboard: Activity: Use Agent mode to add functional "unregister" buttons
 
-Let's experiment with some more open-ended requests that will add more functionality to our web application. Remember, AI assistants often produce different results, even if the same prompt is provided. If you don't get the desired results, you can try other models or provided followup feedback to refine the results.
+Let's experiment with some more open-ended requests that will add more functionality to our web application.
+
+If you don't get the desired results, you can try other models or provided followup feedback to refine the results.
 
 1. Open the **Copilot** chat panel and use the dropdown menu to switch to **Agent** mode.
 
-   <img width="250" alt="image" src="https://github.com/user-attachments/assets/8c537e2a-d89a-4908-8d35-77c7f0830805" />
+   <!-- TODO: Add screenshot  -->
+
+   <!-- <img width="250" alt="image" src="https://github.com/user-attachments/assets/8c537e2a-d89a-4908-8d35-77c7f0830805" /> -->
+
+1. Click on the **Tools** icon and explore all Tools currently available to Copilot Agent Mode.
+   <!-- TODO: Add screenshot  -->
 
 1. Time for our test! Let's ask Copilot to add functionality for removing participants.
 
@@ -48,8 +55,8 @@ Let's experiment with some more open-ended requests that will add more functiona
    > When clicked, it will unregister that participant from the activity.
    > ```
 
-   - If you try this prompt in **Edit** mode, you will probably find that the changes to the frontend and backend were made in a theoretical way. Although no syntax or runtime errors occurred, the changes were not compatible and didn't achieve the goal.
-   - In **Agent** mode, Copilot reviewed its own work and refined it to ensure all changes were error free and coordinated together.
+   > 🪧 **Note:**  In this lab we explicitly include the `#codebase` tool to get the most repeatable results.
+    Feel free to try the prompt **without** `#codebase` and observe whether Agent Mode decides to gather broader project context on its own.
 
 1. When Copilot is finished, restart the debugger and inspect the results. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback to refined the results.
 
@@ -58,11 +65,9 @@ Let's experiment with some more open-ended requests that will add more functiona
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
    > ```prompt
-   > #codebase I've noticed there seems to be a bug.
+   > I've noticed there seems to be a bug.
    > When a participant is registered, the page must be refreshed to see the change on the activity.
    > ```
-
-   - If you try this prompt in **Edit** mode, it may or may not work.
 
 1. When Copilot is finished, inspect the results. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback.
 
