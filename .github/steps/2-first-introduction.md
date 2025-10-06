@@ -182,7 +182,7 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
 
    - Typically, you would write a short description of the changes here, but now we have Copilot to help out!
 
-1. To the right of the **Message** text box, find and click the **Generate Commit Message with Copilot** button (sparkles icon).
+1. To the right of the **Message** text box, find and click the **Generate Commit Message** button (sparkles icon).
 
 1. Press the **Commit** button and **Sync Changes** button to push your changes to GitHub.
 
