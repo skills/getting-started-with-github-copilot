@@ -21,7 +21,7 @@ Both **Copilot pull request summaries** and **Copilot code review** have limited
 
 1. In a web browser, open another tab and navigate to your exercise repository.
 
-1. You might notice a **notification banner** suggesting to create a new pull request. Click that or use the **Pull Requests** tab at the top to create a new pull request. Please use the following details:
+1. You might notice a **notification banner** suggesting to create a new pull request. Click that or use the **Pull Requests** tab at the top to **create a new pull request**. Please use the following details:
 
    - **base:** `main`
    - **compare:** `accelerate-with-copilot`
