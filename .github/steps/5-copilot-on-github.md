@@ -13,7 +13,7 @@ Typically, you would review your notes and commit messages then summarize them f
 More eyes on our work is always useful so let's ask Copilot to do a first pass before we do a normal peer review process. Copilot is great at catching common mistakes that are fixed by simple adjustments, but please remember to use it responsibly.
 
 > [!NOTE]
-> Unfortunately both features are not available in **GitHub Copilot Free**. [[docs]](https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review)
+> These features are only available on paid plans of **GitHub Copilot**. [[docs]](https://docs.github.com/en/copilot/get-started/plans)
 
 ### :keyboard: Activity: Summarize and review a PR with Copilot
 
