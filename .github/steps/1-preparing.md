@@ -52,7 +52,7 @@ Let's start up our development environment, use copilot to learn a bit about the
 
    <img width="350" alt="python extension for VS Code" src="https://github.com/user-attachments/assets/3040c0f5-1658-47e2-a439-20504a384f77" />
 
-1. At the top of VS Code, locate and click the **Copilot Chat icon** to open a Copilot Chat side panel.
+1. At the top of VS Code, locate and click the **Toggle Chat icon** to open a Copilot Chat side panel.
 
    <img width="150" alt="image" src="https://github.com/user-attachments/assets/abf584e9-ef68-4725-8b22-4803805e6d55" />
 
