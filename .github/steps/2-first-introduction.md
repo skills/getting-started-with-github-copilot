@@ -2,13 +2,14 @@
 
 In the previous step, GitHub Copilot was able to help us onboard to the project. That alone is a huge time saver, but now let's get some work done!
 
-We recently learned there is a bug where students are registering for the same activities twice. That simply isn't acceptable, so let's get it fixed!
+:bug: **THERE IS A BUG ON THE WEBSITE** :bug:
 
-Unfortunately, we were given little information to solve this problem. So, let's enlist Copilot to help find the problem area and get a potential solution made.
+We’ve discovered that something’s off in the signup flow.
+Students can currently register for the same activity **more than once**! Let’s see how far Copilot can take us in uncovering the cause and shaping a clean fix.
 
-But before we do that, let's learn a bit more about Copilot! 🧑‍🚀
+Before we dive in, a quick primer on how Copilot works. 🧑‍🚀
 
-### How does Copilot work?
+### 📖 Theory: How Copilot works
 
 In short, you can think of Copilot like a very specialized coworker. To be effective with them, you need to provide them background (context) and clear direction (prompts). Additionally, different people are better at different things because of their unique experiences (models).
 
@@ -32,13 +33,6 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
    > Where could this bug be coming from?
    > ```
 
-   <details>
-   <summary>What is @workspace?</summary>
-
-   Great question! This is a specialized [chat participant](https://docs.github.com/en/copilot/using-github-copilot/copilot-chat/github-copilot-chat-cheat-sheet?tool=vscode#chat-participants) that will explore the project repository and try to include relevant additional context.
-
-   </details>
-
 1. Now that we know the issue is in the `src/app.py` file and the `signup_for_activity` method, let's follow Copilot's recommendation and go fix it (semi-manually). We'll start with a comment and let Copilot finish the correction.
 
    1. In VS Code, select the file **Explorer tab** to show the project files and open the `src/app.py` file.
@@ -54,8 +48,6 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
       ```
 
    1. Press `Tab` to accept Copilot's suggestion and convert the shadow text to code.
-
-      > **Tip:** If you would like to see other suggestions, instead of pressing `Tab`, hover over the shadow text suggestion and a toolbar will appear. Use the arrows to select other suggestions or the three dots `...` and `Open Completions Panel` option to show all suggestions in a dedicated panel.
 
    <details>
    <summary>Example Results</summary><br/>
@@ -88,15 +80,13 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
 In new project developments, it's often helpful to have some realistic looking fake data for testing. Copilot is excellent at this task, so let's add some more sample activities and introduce another way to interact with Copilot using **Inline Chat**
 
-**Inline Chat** and the **Copilot Chat** panel are very similar tools, but with slightly different automatic context. As such, while Copilot Chat is good at explaining about the project, inline chat might feel more natural for asking about a particular line or function.
+**Inline Chat** and the **Copilot Chat** panel are similar, but differ in scope: Copilot Chat handles broader, multi-file or exploratory questions; Inline Chat is faster when you want targeted help on the exact line or block in front of you.
 
-1. If not already open, open the `src/app.py` file.
-
-1. Near the top (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
+1. Near the top of the `src/app.py` file (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
 
 1. Click on any of the related lines and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
 
-   > **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
+   > 💡 **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
 
 1. Enter the following prompt text and press enter or the **Send and Dispatch** button.
 
@@ -182,7 +172,7 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
 
 1. In the left sidebar, select the `Source Control` tab.
 
-   > **Tip:** Opening a file from the source control area will show the differences to the original rather than simply opening it.
+   > 💡 **Tip:** Opening a file from the source control area will show the differences to the original rather than simply opening it.
 
 1. Find the `app.py` file and press the `+` sign to collect your changes together in the staging area.
 
@@ -192,7 +182,7 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
 
    - Typically, you would write a short description of the changes here, but now we have Copilot to help out!
 
-1. To the right of the **Message** text box, find and click the **Generate Commit Message with Copilot** button (sparkles icon).
+1. To the right of the **Message** text box, find and click the **Generate Commit Message** button (sparkles icon).
 
 1. Press the **Commit** button and **Sync Changes** button to push your changes to GitHub.
 

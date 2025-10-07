@@ -1,27 +1,39 @@
-## Step 3: Getting work done even _faster_ with Copilot Edits
+## Step 3: Getting work done even _faster_ with Copilot Edit Mode
 
-In our previous steps, we used features of Copilot that require more hands-on guidance and they produced mostly localized results. Now, we will explore Copilot Edits, a feature that allows working more holistically on our repo.
+In our previous steps, we used features of Copilot that require more hands-on guidance and they produced mostly localized results. Now, we will explore Copilot **Edit Mode**, a feature that allows working more holistically on our repo.
 
-[Copilot - Edit Mode](https://code.visualstudio.com/docs/copilot/copilot-edits) is an AI-powered code editing session to make changes across **multiple files** using **natural language**, and applies the edits directly in the editor, where you can review them in-place, with the full context of the surrounding code.
+### 📖 Theory: Copilot Edit Mode
 
-#### Key features
+Copilot **Edit Mode** and **Agent Mode** both let you apply **natural‑language** driven changes across **multiple files**, however there are some differences between them.
 
-- **Multi-file Editing**: Copilot Edits can make changes across multiple files in your workspace.
-- **Iterative Workflow**: Designed for fast iteration, allowing you to review, accept, or discard AI-generated code.
-- **In-place Edits**: Shows generated code directly in your editor, providing a code review-like flow.
-- **Working Set**: Allows you to define which files the edits should be applied to.
+In this step we will focus on **Edit Mode** and explore **Agent Mode** in the next step.
 
-#### How it works
+Edit Mode is best used for **well defined** tasks where you **know the scope** of the needed changes.
 
-1. **Set Context**: Select files to be in the working set.
-1. **Provide Instructions**: Use natural language to describe the required changes.
+#### How Edit Mode works
+
+```mermaid
+flowchart LR
+   A[Select Context Files] --> B[Prompt Copilot]
+   B --> C[Proposed Changes]
+   C --> D{Review Change}
+   D --> E[Accept]
+   D --> F[Discard]
+   D -->|Refine Prompt| B
+
+```
+
+1. **Set Context**: Select files that Copilot should consider in it's changes
+1. **Prompt Copilot**: Use natural language to describe the required changes.
 1. **Review Changes**: See proposed changes in-place in your code.
 1. **Accept or Discard**: Review each suggested edit and choose which to keep.
 1. **Iterate**: If needed, provide follow-up instructions to refine the changes.
 
 ### :keyboard: Activity: Use Copilot to add a new feature! :rocket:
 
-1. If the Copilot Chat panel is not visible, please reopen it.
+Our website lists activities, but it's keeping the guest list secret 🤫 
+
+Let's use Copilot to change the website to display signed up students under each activity!
 
 1. At the bottom of Copilot Chat window, use the dropdown to switch to **Edit** mode.
 
@@ -33,7 +45,9 @@ In our previous steps, we used features of Copilot that require more hands-on gu
    - `src/static/index.html`
    - `src/static/styles.css`
 
-   > **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
+   <img width="400" alt="image showing files added to context" src="https://github.com/user-attachments/assets/8026a86b-b350-4b98-bf4f-764b61d157e7" />
+
+   > 💡 **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
 
 1. Ask Copilot to update our project to display the current participants of activities. Wait a moment for the edit suggestions to arrive and be applied.
 
@@ -52,20 +66,12 @@ In our previous steps, we used features of Copilot that require more hands-on gu
 
       <img width="250" alt="edit navigation panel" src="https://github.com/user-attachments/assets/a84965a5-2f43-4c93-a814-0fdeb3a06494" />
 
-   <details>
-   <summary>Need help? 🤷</summary><br/>
-
-   Remember, to add the relevant files to the working set.
-
-   ![screenshot of working set](https://github.com/user-attachments/assets/d3eadc8e-583e-4a28-9e82-be128eab843b)
-
-   </details>
 
 1. Before we simply accept the changes, please check our website again and verify everything is updated as expected. Here is an example of an updated activity card. You may need to restart the app or refresh the page.
 
    <img width="350" alt="Activity card with participant info" src="https://github.com/user-attachments/assets/c4d56187-4791-4c8e-87d7-d5ce7cdc0bee" />
 
-   > **Note:** Your activity card may look different. Copilot won't always produce the same results.
+   > 🪧 **Note:** Your activity card may look different. Copilot won't always produce the same results.
 
    <details>
    <summary>Need help? 🤷</summary><br/>
@@ -79,17 +85,12 @@ In our previous steps, we used features of Copilot that require more hands-on gu
 
 1. Now that we have confirmed our changes are good, use the panel to cycle through each suggested edit and press **Keep** to apply the change.
 
-   > **Tip:** You can accept the changes directly, modify them, or provide additional instruction to refine them using the chat interface.
+   > 💡 **Tip:** You can accept the changes directly, modify them, or provide additional instruction to refine them using the chat interface.
 
 1. With our new feature complete, please **commit** and **push** the changes to GitHub.
 
-1. Wait a moment for Mona to check your work, provide feedback, and share the final lesson. Almost done!
+1. Wait a moment for Mona to check your work, provide feedback, and share the next lesson.
 
-1. (optional) If you would like an ungraded bonus step to briefly introduce Agent mode, **add an issue comment** asking **@professortocat** about Copilot Agent mode. 🚀
-
-   ```txt
-   Hey @professortocat, Agent mode sounds pretty cool. Can you please tell me more about it?
-   ```
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>

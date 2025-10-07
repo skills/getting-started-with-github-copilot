@@ -1,4 +1,4 @@
-name: Step 4 # Copilot on GitHub
+name: Step 5
 
 on:
   pull_request:
@@ -30,10 +30,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get response templates
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
@@ -61,7 +61,7 @@ jobs:
   finish_exercise:
     name: Finish Exercise
     needs: [find_exercise, post_review_content]
-    uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.7.0
+    uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.7.1
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
       exercise-title: "Getting Started with GitHub Copilot"
