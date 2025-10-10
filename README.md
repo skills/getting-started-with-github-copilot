@@ -7,6 +7,7 @@ _Get started using GitHub Copilot in less than an hour._
 - **Who is this for**: Developers at any experience level looking to accelerate their code workflow.
 - **What you'll learn**: The different ways to interact with Copilot to explain, write, debug, and develop code.
 - **What you'll build**: You will guide Copilot to update Mergington High School's extracurricular activities website.
+- **Reminder**: If you're using GitHub Copilot on a free account, usage is limited to 50 chat messages and 2,000 code completions per month. You might reach the limit during this course.
 - **Prerequisites**:
   - Skills exercise: [Introduction to GitHub](https://github.com/skills/introduction-to-github)
   - Familiarity with [VS Code](https://code.visualstudio.com/)
