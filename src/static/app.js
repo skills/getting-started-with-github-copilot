@@ -4,6 +4,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
+  // Function to create a display name and initials from an email or name
+  function nameFromIdentifier(id) {
+    if (!id) return { display: "Unknown", initials: "?" };
+    // if it's an email, use part before @
+    const raw = id.includes("@") ? id.split("@")[0] : id;
+    // replace dots/underscores with spaces and split to words
+    const parts = raw.replace(/[._\-]+/g, " ").split(" ").filter(Boolean);
+    const display = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+    const initials = parts.length === 1
+      ? parts[0].substring(0, 2).toUpperCase()
+      : (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return { display: display || raw, initials };
+  }
+
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
@@ -13,20 +27,69 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear loading message
       activitiesList.innerHTML = "";
 
+      // Reset select (keep placeholder if present)
+      const placeholderOption = activitySelect.querySelector('option[value=""]');
+      activitySelect.innerHTML = "";
+      if (placeholderOption) {
+        activitySelect.appendChild(placeholderOption);
+      } else {
+        // ensure a default placeholder exists
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "-- Select an activity --";
+        activitySelect.appendChild(opt);
+      }
+
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
 
-        const spotsLeft = details.max_participants - details.participants.length;
+        const spotsLeft = details.max_participants - (details.participants?.length || 0);
 
-        activityCard.innerHTML = `
+        // Basic info
+        const infoHtml = `
           <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
+          <p>${details.description || ""}</p>
+          <p><strong>Schedule:</strong> ${details.schedule || "TBA"}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
         `;
+        activityCard.innerHTML = infoHtml;
 
+        // Participants section
+        const participantsDiv = document.createElement("div");
+        participantsDiv.className = "participants";
+        participantsDiv.setAttribute("aria-label", `Participants for ${name}`);
+
+        const title = document.createElement("h5");
+        title.textContent = "Participants";
+        participantsDiv.appendChild(title);
+
+        const participants = details.participants || [];
+
+        if (participants.length === 0) {
+          const none = document.createElement("p");
+          none.className = "info";
+          none.textContent = "No participants yet";
+          participantsDiv.appendChild(none);
+        } else {
+          const list = document.createElement("ul");
+          participants.forEach((p) => {
+            const { display, initials } = nameFromIdentifier(p);
+            const li = document.createElement("li");
+
+            const span = document.createElement("span");
+            span.className = "participant-initials";
+            span.textContent = initials;
+
+            li.appendChild(span);
+            li.appendChild(document.createTextNode(" " + display));
+            list.appendChild(li);
+          });
+          participantsDiv.appendChild(list);
+        }
+
+        activityCard.appendChild(participantsDiv);
         activitiesList.appendChild(activityCard);
 
         // Add option to select dropdown
@@ -62,6 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        // Refresh activities to show updated participants & availability
+        await fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";

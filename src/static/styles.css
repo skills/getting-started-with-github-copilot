@@ -63,6 +63,7 @@ section h3 {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
+  padding-bottom: 18px;
 }
 
 .activity-card h4 {
@@ -72,6 +73,72 @@ section h3 {
 
 .activity-card p {
   margin-bottom: 8px;
+}
+
+.activity-card .participants {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+}
+
+.activity-card .participants h5 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.activity-card .participants ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.activity-card .participants li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(180deg,#f7f9ff 0%,#eef3ff 100%);
+  color: #0d1b6f;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  border: 1px solid #e0e8ff;
+}
+
+/* decorative bullet so the participants list reads as a bulleted list but keeps the pill look */
+.activity-card .participants li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #1a237e;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.activity-card .participants img.participant-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.activity-card .participants .participant-initials {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #dbe7ff;
+  color: #0d1b6f;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .form-group {
@@ -141,4 +208,12 @@ footer {
   margin-top: 30px;
   padding: 20px;
   color: #666;
+}
+
+/* more compact pills on very small screens */
+@media (max-width: 420px) {
+  .activity-card .participants li {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
 }
