@@ -19,12 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
         activityCard.className = "activity-card";
 
         const spotsLeft = details.max_participants - details.participants.length;
+        const participantsMarkup = details.participants?.length
+          ? `<ul class="participants-list">
+              ${details.participants.map((p) => `<li>${p}</li>`).join("")}
+            </ul>`
+          : `<p class="participants-empty">Be the first to join this activity!</p>`;
 
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <div class="participants">
+            <div class="participants-header">
+              <span class="participants-title">Participants</span>
+              <span class="participants-count">${details.participants.length}</span>
+            </div>
+            ${participantsMarkup}
+          </div>
         `;
 
         activitiesList.appendChild(activityCard);
