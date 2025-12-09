@@ -174,18 +174,37 @@ footer {
 }
 
 .participants-list {
-  list-style: disc inside;
+  list-style: none;
   margin: 0;
-  padding-left: 4px;
+  padding-left: 0;
   color: #37474f;
 }
 
 .participants-list li {
   margin: 4px 0;
-  padding: 4px 6px;
+  padding: 6px 8px;
   border-radius: 4px;
   background-color: #fff;
   border: 1px solid #e3e6ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 2px 8px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
 }
 
 .participants-empty {
