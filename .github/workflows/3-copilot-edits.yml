@@ -60,14 +60,14 @@ jobs:
         id: check-app-js
         uses: tj-actions/changed-files@v45
         with:
-          base_sha: ${{ github.event.repository.default_branch }}
+          base: ${{ github.event.repository.default_branch }}
           files: src/static/app.js
 
       - name: Check if styles.css was modified
         id: check-styles-css
         uses: tj-actions/changed-files@v45
         with:
-          base_sha: ${{ github.event.repository.default_branch }}
+          base: ${{ github.event.repository.default_branch }}
           files: src/static/styles.css
 
       - name: Update comment - step results
