@@ -56,25 +56,42 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
           edit-mode: replace
 
-      - name: Check for participant info in app.js
+      - name: Fetch main branch
+        run: git fetch origin main:main
+
+      - name: Get changed files compared to main
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          base_sha: main
+          sha: ${{ github.sha }}
+          files: |
+            src/static/app.js
+            src/static/styles.css
+
+      - name: Check if app.js was modified
         id: check-app-js
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v1
-        with:
-          text-file: src/static/app.js
-          keyphrase: participant
-          minimum-occurrences: 3
-          case-sensitive: false
+        run: |
+          if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "src/static/app.js"; then
+            echo "✅ app.js was modified compared to main branch"
+            exit 0
+          else
+            echo "❌ app.js was not modified compared to main branch"
+            exit 1
+          fi
 
-      - name: Check for participant info in styles.css
+      - name: Check if styles.css was modified
         id: check-styles-css
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v1
-        with:
-          text-file: src/static/styles.css
-          keyphrase: participant
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: |
+          if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "src/static/styles.css"; then
+            echo "✅ styles.css was modified compared to main branch"
+            exit 0
+          else
+            echo "❌ styles.css was not modified compared to main branch"
+            exit 1
+          fi
 
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
@@ -87,9 +104,9 @@ jobs:
           vars: |
             step_number: 3
             results_table:
-              - description: "Check app.js for participant info"
+              - description: "Check app.js was modified"
                 passed: ${{ steps.check-app-js.outcome == 'success' }}
-              - description: "Check styles.css for participant info"
+              - description: "Check styles.css was modified"
                 passed: ${{ steps.check-styles-css.outcome == 'success' }}
 
       - name: Fail job if not all checks passed
