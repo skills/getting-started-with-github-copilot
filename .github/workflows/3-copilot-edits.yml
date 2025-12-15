@@ -60,20 +60,26 @@ jobs:
         run: git fetch origin main:main
 
       - name: Get changed files compared to main
-        id: changed-files
+        id: changed-files-app-js
         uses: tj-actions/changed-files@v45
         with:
           base_sha: main
           sha: ${{ github.sha }}
-          files: |
-            src/static/app.js
-            src/static/styles.css
+          files: src/static/app.js
+
+      - name: Get changed files compared to main
+        id: changed-files-styles-css
+        uses: tj-actions/changed-files@v45
+        with:
+          base_sha: main
+          sha: ${{ github.sha }}
+          files: src/static/styles.css
 
       - name: Check if app.js was modified
         id: check-app-js
         continue-on-error: true
         run: |
-          if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "src/static/app.js"; then
+          if [[ "${{ steps.changed-files-app-js.outputs.any_changed }}" == "true" ]]; then
             echo "✅ app.js was modified compared to main branch"
             exit 0
           else
@@ -85,7 +91,7 @@ jobs:
         id: check-styles-css
         continue-on-error: true
         run: |
-          if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "src/static/styles.css"; then
+          if [[ "${{ steps.changed-files-styles-css.outputs.any_changed }}" == "true" ]]; then
             echo "✅ styles.css was modified compared to main branch"
             exit 0
           else
