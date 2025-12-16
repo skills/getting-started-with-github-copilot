@@ -1,14 +1,14 @@
 {
-  "name": "Python 3",
-  "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
-  "forwardPorts": [8000],
-  "postCreateCommand": "pip install -r requirements.txt",
+  "name": "Blazor WebAssembly",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "forwardPorts": [5000, 5001],
+  "postCreateCommand": "cd BlazorApp && dotnet restore",
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
-        "ms-python.python",
-        "ms-python.debugpy"
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit"
       ]
     }
   }

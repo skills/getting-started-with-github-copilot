@@ -1,46 +1,86 @@
-# Getting Started with GitHub Copilot
+# Mergington High School Activities - Blazor WebAssembly
 
-_Get started using GitHub Copilot in less than an hour._
+A Blazor WebAssembly application that allows students to view and sign up for extracurricular activities at Mergington High School.
 
-## Welcome
+## 🎯 Features
 
-- **Who is this for**: Developers at any experience level looking to accelerate their code workflow.
-- **What you'll learn**: The different ways to interact with Copilot to explain, write, debug, and develop code.
-- **What you'll build**: You will guide Copilot to update Mergington High School's extracurricular activities website.
-- **Prerequisites**:
-  - Skills exercise: [Introduction to GitHub](https://github.com/skills/introduction-to-github)
-  - Familiarity with [VS Code](https://code.visualstudio.com/)
-  - Basic coding principles
-- **How long**: This exercise takes less than one hour to complete.
+- ✅ View available extracurricular activities
+- ✅ See activity details (description, schedule, availability)
+- ✅ Sign up for activities with email
+- ✅ Real-time spots availability tracking
 
-In this exercise, you will:
+## 🛠️ Prerequisites
 
-1. Use a preconfigured Codespace to run VS Code in your browser.
-1. Learn different interaction options to develop with GitHub Copilot.
-1. Use Copilot to summarize and review your pull request.
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
 
-### How to start this exercise
+## 🚀 Getting Started
 
-Simply copy the exercise to your account, then give your favorite Octocat (Mona) **about 20 seconds** to prepare the first lesson, then **refresh the page**.
+1. Navigate to the Blazor project folder:
+   ```bash
+   cd BlazorApp
+   ```
 
-[![](https://img.shields.io/badge/Copy%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/new?template_owner=skills&template_name=getting-started-with-github-copilot&owner=%40me&name=skills-getting-started-with-github-copilot&description=Exercise:+Get+started+using+GitHub+Copilot&visibility=public)
+2. Restore dependencies:
+   ```bash
+   dotnet restore
+   ```
 
-<details>
-<summary>Having trouble? 🤷</summary><br/>
+3. Run the application:
+   ```bash
+   dotnet run
+   ```
 
-When copying the exercise, we recommend the following settings:
+4. Open your browser and navigate to the URL shown in the terminal (typically `https://localhost:5001` or `http://localhost:5000`)
 
-- For owner, choose your personal account or an organization to host the repository.
+## 📁 Project Structure
 
-- We recommend creating a public repository, since private repositories will use Actions minutes.
-   
-If the exercise isn't ready in 20 seconds, please check the [Actions](../../actions) tab.
+```
+BlazorApp/
+├── Models/
+│   └── Activity.cs          # Data models
+├── Pages/
+│   └── Index.razor          # Main page component
+├── Services/
+│   └── ActivityService.cs   # Activity data service
+├── Shared/
+│   └── MainLayout.razor     # Layout component
+├── wwwroot/
+│   ├── css/
+│   │   └── app.css          # Application styles
+│   └── index.html           # Host page
+├── _Imports.razor           # Global imports
+├── App.razor                # Root component
+├── Program.cs               # Application entry point
+└── BlazorApp.csproj         # Project file
+```
 
-- Check to see if a job is running. Sometimes it simply takes a bit longer.
+## 💻 Technologies Used
 
-- If the page shows a failed job, please submit an issue. Nice, you found a bug! 🐛
+- Blazor WebAssembly
+- .NET 8.0
+- C#
 
-</details>
+## 📸 Screenshots
+
+The application displays:
+- **Activities List**: Shows all available extracurricular activities with descriptions, schedules, and available spots
+- **Sign Up Form**: Allows students to register for activities using their school email
+
+---
+
+## 🙏 Credits & Acknowledgments
+
+This project is based on and inspired by the [Getting Started with GitHub Copilot](https://github.com/skills/getting-started-with-github-copilot) Skills course by GitHub.
+
+**Original Project:**
+- Repository: [github.com/skills/getting-started-with-github-copilot](https://github.com/skills/getting-started-with-github-copilot)
+- Original Stack: Python (FastAPI) + HTML/CSS/JavaScript
+- Purpose: An educational exercise to learn GitHub Copilot
+
+**This Fork:**
+- Converted from Python/FastAPI to **Blazor WebAssembly** (.NET 8.0)
+- Maintains the same functionality and UI design
+- Demonstrates cross-platform migration capabilities
 
 ---
 

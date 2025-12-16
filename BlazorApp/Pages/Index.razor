@@ -1,0 +1,121 @@
+@page "/"
+@inject ActivityService ActivityService
+
+<PageTitle>Mergington High School Activities</PageTitle>
+
+<header>
+    <h1>Mergington High School</h1>
+    <h2>Extracurricular Activities</h2>
+</header>
+
+<div class="main-content">
+    <section class="activities-container">
+        <h3>Available Activities</h3>
+        <div class="activities-list">
+            @if (_activities == null)
+            {
+                <p>Loading activities...</p>
+            }
+            else if (!_activities.Any())
+            {
+                <p>No activities available.</p>
+            }
+            else
+            {
+                @foreach (var activity in _activities)
+                {
+                    <div class="activity-card">
+                        <h4>@activity.Name</h4>
+                        <p>@activity.Description</p>
+                        <p><strong>Schedule:</strong> @activity.Schedule</p>
+                        <p><strong>Availability:</strong> @activity.SpotsLeft spots left</p>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+
+    <section class="signup-container">
+        <h3>Sign Up for an Activity</h3>
+        <EditForm Model="@_signupModel" OnValidSubmit="HandleSignup">
+            <div class="form-group">
+                <label for="email">Student Email:</label>
+                <InputText id="email" @bind-Value="_signupModel.Email" 
+                           placeholder="your-email@mergington.edu" />
+            </div>
+            <div class="form-group">
+                <label for="activity">Select Activity:</label>
+                <InputSelect id="activity" @bind-Value="_signupModel.ActivityName">
+                    <option value="">-- Select an activity --</option>
+                    @if (_activities != null)
+                    {
+                        @foreach (var activity in _activities)
+                        {
+                            <option value="@activity.Name">@activity.Name</option>
+                        }
+                    }
+                </InputSelect>
+            </div>
+            <button type="submit">Sign Up</button>
+        </EditForm>
+        
+        @if (!string.IsNullOrEmpty(_message))
+        {
+            <div class="message @(_isSuccess ? "success" : "error")">
+                @_message
+            </div>
+        }
+    </section>
+</div>
+
+@code {
+    private List<Activity>? _activities;
+    private SignupModel _signupModel = new();
+    private string _message = string.Empty;
+    private bool _isSuccess;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _activities = await ActivityService.GetActivitiesAsync();
+    }
+
+    private async Task HandleSignup()
+    {
+        if (string.IsNullOrWhiteSpace(_signupModel.Email) || 
+            string.IsNullOrWhiteSpace(_signupModel.ActivityName))
+        {
+            _message = "Please fill in all fields";
+            _isSuccess = false;
+            return;
+        }
+
+        var result = await ActivityService.SignupForActivityAsync(
+            _signupModel.ActivityName, 
+            _signupModel.Email);
+
+        _message = result.Message;
+        _isSuccess = result.Success;
+
+        if (result.Success)
+        {
+            _signupModel = new SignupModel();
+            _activities = await ActivityService.GetActivitiesAsync();
+        }
+
+        // Auto-hide message after 5 seconds
+        _ = HideMessageAfterDelay();
+    }
+
+    private async Task HideMessageAfterDelay()
+    {
+        await Task.Delay(5000);
+        _message = string.Empty;
+        StateHasChanged();
+    }
+
+    public class SignupModel
+    {
+        public string Email { get; set; } = string.Empty;
+        public string ActivityName { get; set; } = string.Empty;
+    }
+}
