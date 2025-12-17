@@ -58,7 +58,7 @@ jobs:
 
       # START: Check practical exercise
 
-      - name: Get changed files (once)
+      - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v47
         with:
