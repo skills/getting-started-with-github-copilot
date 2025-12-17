@@ -56,19 +56,38 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
           edit-mode: replace
 
-      - name: Check if app.js was modified
-        id: check-app-js
-        uses: tj-actions/changed-files@v45
+      # START: Check practical exercise
+
+      - name: Get changed files (once)
+        id: changed-files
+        uses: tj-actions/changed-files@v47
         with:
           base_sha: ${{ github.event.repository.default_branch }}
-          files: src/static/app.js
+          files: |
+            src/static/app.js
+            src/static/styles.css
+
+      - name: Check if app.js was modified
+        id: check-app-js
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ');
+            if (!changedFiles.includes('src/static/app.js')) {
+              core.setFailed('src/static/app.js was not modified');
+            }
 
       - name: Check if styles.css was modified
         id: check-styles-css
-        uses: tj-actions/changed-files@v45
+        continue-on-error: true
+        uses: actions/github-script@v7
         with:
-          base_sha: ${{ github.event.repository.default_branch }}
-          files: src/static/styles.css
+          script: |
+            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ');
+            if (!changedFiles.includes('src/static/styles.css')) {
+              core.setFailed('src/static/styles.css was not modified');
+            }
 
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
@@ -81,13 +100,15 @@ jobs:
           vars: |
             step_number: 3
             results_table:
-              - description: "Check app.js was modified"
-                passed: ${{ steps.check-app-js.outputs.any_changed }}
-              - description: "Check styles.css was modified"
-                passed: ${{ steps.check-styles-css.outputs.any_changed }}
+              - description: "Checked if app.js for participant info"
+                passed: ${{ steps.check-app-js.outcome == 'success' }}
+              - description: "Checked if styles.css for participant info"
+                passed: ${{ steps.check-styles-css.outcome == 'success' }}
+
+      # END: Check practical exercise
 
       - name: Fail job if not all checks passed
-        if: steps.check-app-js.outputs.any_changed != 'true' || steps.check-styles-css.outputs.any_changed != 'true'
+        if: contains(steps.*.outcome, 'failure')
         run: exit 1
 
   post_next_step_content:
