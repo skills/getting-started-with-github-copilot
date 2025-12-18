@@ -71,22 +71,30 @@ jobs:
         id: check-app-js
         continue-on-error: true
         uses: actions/github-script@v7
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          TARGET_FILE: src/static/app.js
         with:
           script: |
-            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ');
-            if (!changedFiles.includes('src/static/app.js')) {
-              core.setFailed('src/static/app.js was not modified');
+            const changedFiles = process.env.CHANGED_FILES.split(' ');
+            const targetFile = process.env.TARGET_FILE;
+            if (!changedFiles.includes(targetFile)) {
+              core.setFailed(`${targetFile} was not modified`);
             }
 
       - name: Check if styles.css was modified
         id: check-styles-css
         continue-on-error: true
         uses: actions/github-script@v7
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          TARGET_FILE: src/static/styles.css
         with:
           script: |
-            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ');
-            if (!changedFiles.includes('src/static/styles.css')) {
-              core.setFailed('src/static/styles.css was not modified');
+            const changedFiles = process.env.CHANGED_FILES.split(' ');
+            const targetFile = process.env.TARGET_FILE;
+            if (!changedFiles.includes(targetFile)) {
+              core.setFailed(`${targetFile} was not modified`);
             }
 
       - name: Update comment - step results
