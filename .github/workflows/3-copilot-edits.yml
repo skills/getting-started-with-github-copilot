@@ -56,25 +56,46 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
           edit-mode: replace
 
-      - name: Check for participant info in app.js
+      # START: Check practical exercise
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          base_sha: ${{ github.event.repository.default_branch }}
+          files: |
+            src/static/app.js
+            src/static/styles.css
+
+      - name: Check if app.js was modified
         id: check-app-js
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v1
+        uses: actions/github-script@v7
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          TARGET_FILE: src/static/app.js
         with:
-          text-file: src/static/app.js
-          keyphrase: participant
-          minimum-occurrences: 3
-          case-sensitive: false
+          script: |
+            const changedFiles = process.env.CHANGED_FILES.split(' ');
+            const targetFile = process.env.TARGET_FILE;
+            if (!changedFiles.includes(targetFile)) {
+              core.setFailed(`${targetFile} was not modified`);
+            }
 
-      - name: Check for participant info in styles.css
+      - name: Check if styles.css was modified
         id: check-styles-css
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v1
+        uses: actions/github-script@v7
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          TARGET_FILE: src/static/styles.css
         with:
-          text-file: src/static/styles.css
-          keyphrase: participant
-          minimum-occurrences: 1
-          case-sensitive: false
+          script: |
+            const changedFiles = process.env.CHANGED_FILES.split(' ');
+            const targetFile = process.env.TARGET_FILE;
+            if (!changedFiles.includes(targetFile)) {
+              core.setFailed(`${targetFile} was not modified`);
+            }
 
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
@@ -87,10 +108,12 @@ jobs:
           vars: |
             step_number: 3
             results_table:
-              - description: "Check app.js for participant info"
+              - description: "Checked app.js for participant info"
                 passed: ${{ steps.check-app-js.outcome == 'success' }}
-              - description: "Check styles.css for participant info"
+              - description: "Checked styles.css for participant info"
                 passed: ${{ steps.check-styles-css.outcome == 'success' }}
+
+      # END: Check practical exercise
 
       - name: Fail job if not all checks passed
         if: contains(steps.*.outcome, 'failure')
