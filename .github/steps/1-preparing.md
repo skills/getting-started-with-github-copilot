@@ -112,7 +112,7 @@ Great work! Now that we are familiar with the app and we know it works, let's as
 
 1. Press the `Run` button to let Copilot insert the terminal command for us. No need to copy and paste!
 
-1. After a moment, look in the VS Code lower status bar, on the left, to see the active branch. It should now say `accelerate-with-copilot`. If so, you are all done with this step!
+1. After a moment, look in the VS Code lower status bar, on the left, to see the active branch. It should now say `accelerate-with-copilot`. If so, you are all done with this step! (In rare case Copilot may have submitted an incomplete command. This command only created a new branch without pushing it, so complete this step manually.)
 
 1. Now that your branch is pushed to GitHub, Mona should already be busy checking your work. Give her a moment and keep watch in the comments. You will see her respond with progress info and the next lesson.
 
