@@ -65,3 +65,17 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+  # add a new activity for music class
+@app.post("/activities/music_class")    
+def add_music_class():
+    """Add a new activity for Music Class"""
+    activity_name="Music Class"
+    if activity_name in activities:
+        raise HTTPException(status_code=400, detail="Activity already exists")
+    activities[activity_name] = {
+        "description": "Learn to play musical instruments and perform in concerts",
+        "schedule": "Wednesdays, 4:00 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": []
+    
+         }
