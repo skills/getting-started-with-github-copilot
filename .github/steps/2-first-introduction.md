@@ -34,7 +34,6 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
    > ```
 
 1. Now that we know the issue is in the `src/app.py` file and the `signup_for_activity` method, let's follow Copilot's recommendation and go fix it (semi-manually). We'll start with a comment and let Copilot finish the correction.
-
    1. In VS Code, select the file **Explorer tab** to show the project files and open the `src/app.py` file.
 
    1. Scroll near the bottom of the file and find the `signup_for_activity` method.
@@ -88,7 +87,7 @@ In new project developments, it's often helpful to have some realistic looking f
 
 1. Near the top of the `src/app.py` file (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
 
-1. Click on any of the related lines and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
+1. Highlight the entire `activities` dictionary and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
 
    > 💡 **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
 
@@ -101,7 +100,10 @@ In new project developments, it's often helpful to have some realistic looking f
    > activities, and 2 more intellectual activities.
    > ```
 
-1. After a moment, Copilot will directly start making changes to the code. The changes will be stylized differently to make any additions and removals easy to identify. Take a moment to inspect and then press the **Accept** button.
+   <img width="700" alt="Highlighted activities dictionary before opening inline chat" src="../images/inline-chat-highlight.png" />
+
+
+1. After a moment, Copilot will directly start making changes to the code. The changes will be stylized differently to make any additions and removals easy to identify. Take a moment to inspect and verify the changes, and then press the **Keep** button.
 
    <details>
    <summary>Example Results</summary><br/>
@@ -183,7 +185,6 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
    ![image](../images/staging-changes-icon.png)
 
 1. Above the list of staged changes, find the **Message** text box, but **don't enter anything** for now.
-
    - Typically, you would write a short description of the changes here, but now we have Copilot to help out!
 
 1. To the right of the **Message** text box, find and click the **Generate Commit Message** button (sparkles icon).
