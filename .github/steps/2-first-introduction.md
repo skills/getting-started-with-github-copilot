@@ -43,9 +43,13 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
    1. Enter the below comment and press enter to go to the next line. After a moment, temporary shadow text will appear with a suggestion from Copilot! Nice! :tada:
 
+      Comment:
+
       ```python
       # Validate student is not already signed up
       ```
+
+      <img width="700" alt="Copilot shadow text suggestion in the editor" src="../images/shadow-text.gif" />
 
    1. Press `Tab` to accept Copilot's suggestion and convert the shadow text to code.
 
