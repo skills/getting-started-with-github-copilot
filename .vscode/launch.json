@@ -11,7 +11,9 @@
       "module": "uvicorn",
       "args": [
         "src.app:app",
-        "--reload"
+        "--reload",
+        "--reload-include",
+        "src/static/*"
       ],
       "jinja": true
     }
