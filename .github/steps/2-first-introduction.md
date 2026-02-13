@@ -172,6 +172,8 @@ In new project developments, it's often helpful to have some realistic looking f
 
    </details>
 
+1. You can now go to your website and verify that the new activities are visible.
+
 ### :keyboard: Activity: Use Copilot to describe our work 💬
 
 Nice work fixing that bug and expanding the example activities! Now let's get our work committed and pushed to GitHub, again with the help of Copilot!
