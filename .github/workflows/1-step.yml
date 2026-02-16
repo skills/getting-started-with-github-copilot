@@ -1,10 +1,10 @@
-name: Step 2
+name: Step 1
+
 on:
   push:
-    branches:
-      - "accelerate-with-copilot"
-    paths:
-      - "src/app.py"
+    # Trigger on pushes to any branch except the protected `main` branch
+    branches-ignore:
+      - main
 
 permissions:
   contents: read
@@ -12,12 +12,12 @@ permissions:
   issues: write
 
 env:
-  STEP_3_FILE: ".github/steps/3-copilot-edits.md"
+  STEP_2_FILE: ".github/steps/2-step.md"
 
 jobs:
   find_exercise:
     name: Find Exercise Issue
-    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.0
+    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.8.1
 
   check_step_work:
     name: Check step work
@@ -29,14 +29,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get response templates
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.0
+          ref: v0.8.1
 
       - name: Find last comment
         id: find-last-comment
@@ -57,15 +57,17 @@ jobs:
 
       # START: Check practical exercise
 
-      - name: Check for additional student activities
-        id: check-additional-activities
+      - name: Check branch name is correct
+        id: check-branch
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v1
         with:
-          text-file: src/app.py
-          keyphrase: '"description"'
-          minimum-occurrences: 4
-          case-sensitive: false
+          # Check the branch ref directly
+          text: ${{ github.ref }}
+          keyphrase: accelerate-with-copilot
+          case-sensitive: true
+          minimum-occurrences: 1
+          maximum-occurrences: 1
 
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
@@ -76,13 +78,15 @@ jobs:
           edit-mode: replace
           file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
           vars: |
-            step_number: 2
+            step_number: 1
             results_table:
-              - description: "New activities added to src/app.py. We found ${{ steps.check-additional-activities.outputs.occurrences }} activities (minimum 4 required)"
-                passed: ${{ steps.check-additional-activities.outcome == 'success' }}
+              - description: "Checked that branch name is accelerate-with-copilot"
+                passed: ${{ steps.check-branch.outcome == 'success' }}
 
-      - name: Fail job if not all checks passed
-        if: contains(steps.*.outcome, 'failure')
+      # END: Check practical exercise
+
+      - name: Fail job if check failed
+        if: ${{ steps.check-branch.outcome != 'success' }}
         run: exit 1
 
   post_next_step_content:
@@ -95,14 +99,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get response templates
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.0
+          ref: v0.8.1
 
       - name: Create comment - step finished
         uses: GrantBirki/comment@v2.1.1
@@ -111,14 +115,14 @@ jobs:
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           vars: |
-            next_step_number: 3
+            next_step_number: 2
 
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: ${{ env.STEP_3_FILE }}
+          file: ${{ env.STEP_2_FILE }}
 
       - name: Create comment - watching for progress
         uses: GrantBirki/comment@v2.1.1
@@ -130,6 +134,6 @@ jobs:
       - name: Disable current workflow and enable next one
         run: |
           gh workflow disable "${{github.workflow}}"
-          gh workflow enable "Step 3"
+          gh workflow enable "Step 2"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
