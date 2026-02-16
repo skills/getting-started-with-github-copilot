@@ -37,7 +37,7 @@ Let's use Copilot to change the website to display signed up students under each
 
 1. At the bottom of Copilot Chat window, use the dropdown to switch to **Edit** mode.
 
-   <img width="350" alt="image" src="https://github.com/user-attachments/assets/646fc94a-7d60-4821-b9cf-9ec6f4fd03d7" />
+   <img width="350" alt="image" src="../images/edit-mode-dropdown.png" />
 
 1. Open the files related to our webpage then drag each editor window (or file) to the chat panel, informing Copilot to use them as context.
 
@@ -45,7 +45,7 @@ Let's use Copilot to change the website to display signed up students under each
    - `src/static/index.html`
    - `src/static/styles.css`
 
-   <img width="400" alt="image showing files added to context" src="https://github.com/user-attachments/assets/8026a86b-b350-4b98-bf4f-764b61d157e7" />
+   <img width="400" alt="image showing files added to context" src="../images/files-added-to-context.png" />
 
    > 💡 **Tip:** You can also use the **Add Context...** button to provide other sources of context items, like a GitHub issue, the entire codebase, or the results of a terminal window.
 
@@ -62,14 +62,14 @@ Let's use Copilot to change the website to display signed up students under each
    - An extra icon has appeared next to the file names and open editor windows indicating they have suggested edits.
    - A suggested edits panel has appeared in the bottom right of the editor window providing controls to jump to the recommended changes.
 
-      <img width="200" alt="files with icons indicating they have been edited" src="https://github.com/user-attachments/assets/9c7c2e10-cd18-43c5-9947-cffd6dde0473" />
+      <img width="200" alt="files with icons indicating they have been edited" src="../images/edited-files-icons.png" />
 
-      <img width="250" alt="edit navigation panel" src="https://github.com/user-attachments/assets/a84965a5-2f43-4c93-a814-0fdeb3a06494" />
+      <img width="250" alt="edit navigation panel" src="../images/edit-navigation-panel.png" />
 
 
 1. Before we simply accept the changes, please check our website again and verify everything is updated as expected. Here is an example of an updated activity card. You may need to restart the app or refresh the page.
 
-   <img width="350" alt="Activity card with participant info" src="https://github.com/user-attachments/assets/c4d56187-4791-4c8e-87d7-d5ce7cdc0bee" />
+   <img width="350" alt="Activity card with participant info" src="../images/activity-card-with-participants.png" />
 
    > 🪧 **Note:** Your activity card may look different. Copilot won't always produce the same results.
 

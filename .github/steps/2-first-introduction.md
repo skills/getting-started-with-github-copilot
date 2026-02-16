@@ -176,7 +176,7 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
 
 1. Find the `app.py` file and press the `+` sign to collect your changes together in the staging area.
 
-   ![image](https://github.com/user-attachments/assets/7d3daf4e-4125-4775-88a7-33251cd7293e)
+   ![image](../images/staging-changes-icon.png)
 
 1. Above the list of staged changes, find the **Message** text box, but **don't enter anything** for now.
 
