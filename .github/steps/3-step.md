@@ -95,7 +95,7 @@ Let's use Copilot to change the website to display signed up students under each
 
 Let's experiment with some more open-ended requests that will add more functionality to our web application.
 
-If you don't get the desired results, you can try other models or provided followup feedback to refine the results.
+If you don't get the desired results, you can try other models or provide follow-up feedback to refine the results.
 
 1. Make sure your Copilot is still in **Agent** mode.
 
@@ -119,7 +119,7 @@ If you don't get the desired results, you can try other models or provided follo
    > 🪧 **Note:** In this lab we explicitly include the `#codebase` tool to get the most repeatable results.
    > Feel free to try the prompt **without** `#codebase` and observe whether Agent Mode decides to gather broader project context on its own.
 
-1. When Copilot is finished, inspect the code changes and the results on the website. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback to refined the results.
+1. When Copilot is finished, inspect the code changes and the results on the website. If you like the results, press the **Keep** button. If not, try providing Copilot some feedback to refine the results.
 
    > 🪧 **Note:** If you don't see updates on the website, you may need to restart the debugger
 

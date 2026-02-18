@@ -41,7 +41,7 @@ Your backend still has zero test coverage. Use **Plan Agent** to create a plan, 
    > I want to add backend FastAPI tests in a separate tests directory.
    > ```
 
-1. Wait for Copilot to generate it's first plan. If it asks you any questions, answer them to the best of your ability. 
+1. Wait for Copilot to generate its first plan. If it asks you any questions, answer them to the best of your ability. 
 
    > 🪧 **Note:** Don't worry about getting it perfect, you can always refine the plan later.
 
@@ -68,7 +68,7 @@ Your backend still has zero test coverage. Use **Plan Agent** to create a plan, 
 
    Notice that clicking the button switched from **Plan** to **Agent Mode**. From this point on, Copilot can edit your codebase, just like before.
 
-1. Watch Copilot implement the plan you just created. It may ask for permissions to run certain tools (e.g run commands or create virtual environments). Approve these permissions so it can continue working.
+1. Watch Copilot implement the plan you just created. It may ask for permissions to run certain tools (e.g., run commands or create virtual environments). Approve these permissions so it can continue working.
 
 1. Review the changes and make sure tests run successfully. If needed, continue guiding until implementation is complete.
 
