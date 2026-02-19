@@ -11,7 +11,7 @@ permissions:
   issues: write
 
 env:
-  STEP_1_FILE: ".github/steps/1-preparing.md"
+  STEP_1_FILE: ".github/steps/1-step.md"
 
 jobs:
   start_exercise:
@@ -42,7 +42,7 @@ jobs:
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.0
+          ref: v0.8.1
 
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1

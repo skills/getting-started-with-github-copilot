@@ -16,13 +16,13 @@ GitHub Copilot has been proven to increase developer productivity and accelerate
 
 As you work in your IDE, you'll most often interact with GitHub Copilot in the following ways:
 
-| Interaction Mode          | 📝 Description                                                                                                                                      | 🎯 Best For                                                                                                      |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **⚡ Inline suggestions** | AI-powered code suggestions that appear as you type, offering context-aware completions from single lines to entire functions.                      | Completion of the current line, sometimes a whole new block of code                                              |
-| **💬 Ask Mode**           | Optimized for answering questions about your codebase, coding, and general technology concepts.                                                     | Understanding how code works, brainstorming ideas, asking questions                                              |
-| **✏️ Edit Mode**          | Optimized for making code edits across multiple files in your project. VS Code directly applies the code changes in the editor for in-place review. | Coding tasks when you have a good understanding of the changes you want to make and which files you want to edit |
-| **🤖 Agent Mode**         | Optimized for making autonomous edits across multiple files in your project.                                                                        | Coding tasks when you have a less well-defined task that might also require running terminal commands and tools  |
-| **💭 Inline Chat**        | Interactive chat scoped to your current file or selection. Ask questions about specific code blocks.                                                | Code explanations, debugging specific functions, targeted improvements                                           |
+| Interaction Mode          | 📝 Description                                                                                                                 | 🎯 Best For                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **⚡ Inline suggestions** | AI-powered code suggestions that appear as you type, offering context-aware completions from single lines to entire functions. | Completion of the current line, sometimes a whole new block of code                                             |
+| **💭 Inline Chat**        | Interactive chat scoped to your current file or selection. Ask questions about specific code blocks.                           | Code explanations, debugging specific functions, targeted improvements                                          |
+| **💬 Ask Mode**           | Optimized for answering questions about your codebase, coding, and general technology concepts.                                | Understanding how code works, brainstorming ideas, asking questions                                             |
+| **🤖 Agent Mode**         | Recommended default mode for most coding tasks: autonomous edits, tool use, and follow-through until the task is done.         | Daily coding tasks, from scoped fixes to larger multi-file implementation work                                   |
+| **🧭 Plan Agent**         | Optimized for drafting a plan and asking clarifying questions before any code changes are made.                                | When you want a reviewed plan first, then hand off to implementation                                            |
 
 As you work, you'll find GitHub Copilot can help out in several places across the `github.com` website and in your favorite coding environments such as VS Code, Jet Brains, and Xcode!
 
@@ -40,7 +40,6 @@ Let's start up our development environment, use copilot to learn a bit about the
    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
 
 1. Confirm the **Repository** field is your copy of the exercise, not the original, then click the green **Create Codespace** button.
-
    - ✅ Your copy: `/{{full_repo_name}}`
    - ❌ Original: `/skills/getting-started-with-github-copilot`
 
@@ -60,8 +59,8 @@ Let's start up our development environment, use copilot to learn a bit about the
 
 1. Make sure you are in **Ask Mode** for our first interaction
 
-
    <img width="350" alt="screenshot showing Ask Mode selection in Copilot Chat" src="../images/ask-mode-selection.png" />
+
 1. Enter the below prompt to ask Copilot to introduce you to the project.
 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)

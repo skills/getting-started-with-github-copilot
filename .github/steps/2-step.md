@@ -34,18 +34,23 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
    > ```
 
 1. Now that we know the issue is in the `src/app.py` file and the `signup_for_activity` method, let's follow Copilot's recommendation and go fix it (semi-manually). We'll start with a comment and let Copilot finish the correction.
+   1. Open the `src/app.py` file.
 
-   1. In VS Code, select the file **Explorer tab** to show the project files and open the `src/app.py` file.
+      > 💡 **Tip:** If Copilot mentioned `src/app.py` in chat, you can click the file directly in the chat view to open it.
 
-   1. Scroll near the bottom of the file and find the `signup_for_activity` method.
+   1. Near the bottom of the file, find the `signup_for_activity` function.
 
    1. Find the comment line that describes adding a student. Above this is where it seems logical to do our registration check.
 
    1. Enter the below comment and press enter to go to the next line. After a moment, temporary shadow text will appear with a suggestion from Copilot! Nice! :tada:
 
+      Comment:
+
       ```python
       # Validate student is not already signed up
       ```
+
+      <img width="700" alt="Copilot shadow text suggestion in the editor" src="../images/shadow-text.gif" />
 
    1. Press `Tab` to accept Copilot's suggestion and convert the shadow text to code.
 
@@ -84,11 +89,16 @@ In new project developments, it's often helpful to have some realistic looking f
 
 1. Near the top of the `src/app.py` file (about line 23), find the `activities` variable, where our example extracurricular activities are configured.
 
-1. Click on any of the related lines and bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
+1. Highlight the entire `activities` dictionary by clicking and dragging your mouse from the top to the bottom of the dictionary. This will help provide context to Copilot for our next prompt.
 
-   > 💡 **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Copilot` -> `Editor Inline Chat`.
+   <img width="700" alt="Highlighted activities dictionary before opening inline chat" src="../images/activities-dict-highlighted.png" />
 
-1. Enter the following prompt text and press enter or the **Send and Dispatch** button.
+
+1. Bring up Copilot inline chat by using the keyboard command `Ctrl + I` (windows) or `Cmd + I` (mac).
+
+   > 💡 **Tip:** Another way to bring up Copilot inline chat is: `right click` on any of the selected lines -> `Open Inline Chat`.
+
+1. Enter the following prompt text and press enter or the **Send** button on the right.
 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
@@ -97,7 +107,7 @@ In new project developments, it's often helpful to have some realistic looking f
    > activities, and 2 more intellectual activities.
    > ```
 
-1. After a moment, Copilot will directly start making changes to the code. The changes will be stylized differently to make any additions and removals easy to identify. Take a moment to inspect and then press the **Accept** button.
+1. After a moment, Copilot will directly start making changes to the code. The changes will be stylized differently to make any additions and removals easy to identify. Take a moment to inspect and verify the changes, and then press the **Keep** button.
 
    <details>
    <summary>Example Results</summary><br/>
@@ -166,6 +176,8 @@ In new project developments, it's often helpful to have some realistic looking f
 
    </details>
 
+1. You can now go to your website and verify that the new activities are visible.
+
 ### :keyboard: Activity: Use Copilot to describe our work 💬
 
 Nice work fixing that bug and expanding the example activities! Now let's get our work committed and pushed to GitHub, again with the help of Copilot!
@@ -179,7 +191,6 @@ Nice work fixing that bug and expanding the example activities! Now let's get ou
    ![image](../images/staging-changes-icon.png)
 
 1. Above the list of staged changes, find the **Message** text box, but **don't enter anything** for now.
-
    - Typically, you would write a short description of the changes here, but now we have Copilot to help out!
 
 1. To the right of the **Message** text box, find and click the **Generate Commit Message** button (sparkles icon).

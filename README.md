@@ -5,7 +5,7 @@ _Get started using GitHub Copilot in less than an hour._
 ## Welcome
 
 - **Who is this for**: Developers at any experience level looking to accelerate their code workflow.
-- **What you'll learn**: The different ways to interact with Copilot to explain, write, debug, and develop code.
+- **What you'll learn**: The different ways to interact with Copilot to explain, write, plan, and develop code.
 - **What you'll build**: You will guide Copilot to update Mergington High School's extracurricular activities website.
 - **Prerequisites**:
   - Skills exercise: [Introduction to GitHub](https://github.com/skills/introduction-to-github)
@@ -16,7 +16,7 @@ _Get started using GitHub Copilot in less than an hour._
 In this exercise, you will:
 
 1. Use a preconfigured Codespace to run VS Code in your browser.
-1. Learn different interaction options to develop with GitHub Copilot.
+1. Learn different interaction options to develop and plan with GitHub Copilot.
 1. Use Copilot to summarize and review your pull request.
 
 ### How to start this exercise
