@@ -6,7 +6,7 @@ Now let's slow down for one round and work like architects: define a strong test
 
 ### 📖 Theory: What is Copilot Plan Agent?
 
-Copilot [Plan Agent](https://code.visualstudio.com/docs/copilot/chat/chat-planning) helps you design a solution before any code is changed.
+Copilot [Plan Agent](https://code.visualstudio.com/docs/copilot/agents/planning) helps you design a solution before any code is changed.
 
 Instead of jumping straight into edits, it researches your request, asks clarifying questions, and drafts an implementation plan you can refine.
 
