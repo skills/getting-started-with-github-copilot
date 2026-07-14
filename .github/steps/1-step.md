@@ -44,18 +44,31 @@ Let's start up our development environment, use copilot to learn a bit about the
    - ❌ Original: `/skills/getting-started-with-github-copilot`
 
 1. Wait a moment for Visual Studio Code to load in your browser.
-
-1. In the left sidebar, click the extensions tab and verify that the `GitHub Copilot` and `Python` extensions are installed and enabled.
+1. In the left sidebar, click the extensions tab and verify that the `GitHub Copilot Chat` and `Python` extensions are installed and enabled.
 
    <img width="350" alt="copilot extension for VS Code" src="../images/copilot-extension-vscode.png" />
 
    <img width="350" alt="python extension for VS Code" src="../images/python-extension-vscode.png" />
 
+   <details>
+   <summary>🔎 GitHub Copilot Chat extension missing ❓</summary>
+
+   If the GitHub Copilot Chat extension is missing for you ensure you are logged in to GitHub Copilot. Find the **GitHub Copilot** icon on the bottom right of the VS Code window.
+
+   | Status bar icon                                                                                                         | Sign in required                                                                                         | Copilot active                                                                                                  |
+   | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+   | <img width="300" alt="Copilot menu prompting the user to use AI features" src="../images/copilot-sign-in-button.png" /> | <img width="300" alt="Copilot chat sign in button" src="../images/copilot-sign-in-button-clicked.png" /> | <img width="300" alt="Copilot menu showing inline suggestions enabled" src="../images/copilot-signed-in.png" /> |
+
+   You should be good to go at this point, even if the extension is still not visible in the extensions tab.
+
+   </details>
+
 1. At the top of VS Code, locate and click the **Toggle Chat icon** to open a Copilot Chat side panel.
 
    <img width="150" alt="image" src="../images/toggle-chat-icon.png" />
 
-   > 🪧 **Note:** If this is your first time using GitHub Copilot, you will need to accept the usage terms to continue.
+   > 🪧 **Note:** If this is your first time using GitHub Copilot, you may need to accept the usage terms to continue.
+
 
 1. Make sure you are in **Ask Mode** for our first interaction
 
