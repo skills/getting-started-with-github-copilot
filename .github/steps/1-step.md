@@ -53,7 +53,7 @@ Let's start up our development environment, use copilot to learn a bit about the
    <details>
    <summary>🔎 GitHub Copilot Chat extension missing ❓</summary>
 
-   If the GitHub Copilot Chat extension is missing for you ensure you are logged in to GitHub Copilot. Find the **GitHub Copilot** icon on the bottom right of the VS Code window.
+   If the GitHub Copilot Chat extension is missing for you, ensure you are signed in to GitHub Copilot. Find the **GitHub Copilot** icon on the bottom right of the VS Code window.
 
    | Status bar icon                                                                                                         | Sign in required                                                                                         | Copilot active                                                                                                  |
    | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
