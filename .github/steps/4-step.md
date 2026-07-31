@@ -38,7 +38,7 @@ Your backend still has zero test coverage. Use **Plan Agent** to create a plan, 
    > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
    >
    > ```prompt
-   > I want to add backend FastAPI tests in a separate tests directory.
+   > Let's plan for adding backend FastAPI tests in a separate tests directory.
    > ```
 
 1. Wait for Copilot to generate its first plan. If it asks you any questions, answer them to the best of your ability. 
