@@ -62,6 +62,13 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    normalized_email = email.strip().lower()
+    existing_participants = {participant.strip().lower() for participant in activity["participants"]}
+
+    # Validate student is not already signed up
+    if normalized_email in existing_participants:
+        raise HTTPException(status_code=400, detail="Student is already signed up")
+
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
