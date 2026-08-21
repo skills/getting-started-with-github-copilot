@@ -6,5 +6,6 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
+    }
+  ]
 }
-
