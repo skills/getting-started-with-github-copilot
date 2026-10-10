@@ -5,11 +5,14 @@ A super simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
 """
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
+import hmac
 import os
 from pathlib import Path
+import secrets
 from threading import Lock
 
 app = FastAPI(title="Mergington High School API",
@@ -79,6 +82,12 @@ activities = {
 }
 
 activity_lock = Lock()
+participant_tokens = {
+    email: secrets.token_urlsafe(32)
+    for activity in activities.values()
+    for email in activity["participants"]
+}
+bearer_scheme = HTTPBearer()
 
 
 @app.get("/")
@@ -112,21 +121,29 @@ def signup_for_activity(activity_name: str, email: str):
 
         # Add student
         activity["participants"].append(email)
-    return {"message": f"Signed up {email} for {activity_name}"}
+        participant_tokens.setdefault(email, secrets.token_urlsafe(32))
+
+    return {
+        "message": f"Signed up {email} for {activity_name}",
+        "unregister_token": participant_tokens[email],
+    }
 
 
 @app.delete("/activities/{activity_name}/signup")
 def unregister_from_activity(
     activity_name: str,
     email: str,
-    student_email: str = Header(..., alias="X-Student-Email"),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ):
-    """Remove the authenticated student from an activity."""
+    """Remove a student using their server-issued bearer token."""
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    if student_email != email:
-        raise HTTPException(status_code=403, detail="Students can only unregister themselves")
+    expected_token = participant_tokens.get(email)
+    if expected_token is None or not hmac.compare_digest(
+        credentials.credentials, expected_token
+    ):
+        raise HTTPException(status_code=403, detail="Invalid unregister token")
 
     activity = activities[activity_name]
     with activity_lock:

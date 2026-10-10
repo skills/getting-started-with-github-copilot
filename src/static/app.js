@@ -38,15 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
           const participantEmail = document.createElement("span");
           participantEmail.textContent = email;
 
-          const unregisterButton = document.createElement("button");
-          unregisterButton.type = "button";
-          unregisterButton.className = "unregister-button";
-          unregisterButton.setAttribute("aria-label", `Unregister ${email}`);
-          unregisterButton.title = `Unregister ${email}`;
-          unregisterButton.textContent = "X";
-          unregisterButton.addEventListener("click", () => unregisterParticipant(name, email));
-
-          participantItem.append(participantEmail, unregisterButton);
+          participantItem.appendChild(participantEmail);
+          if (localStorage.getItem(`participant-token:${email}`)) {
+            const unregisterButton = document.createElement("button");
+            unregisterButton.type = "button";
+            unregisterButton.className = "unregister-button";
+            unregisterButton.setAttribute("aria-label", `Unregister ${email}`);
+            unregisterButton.title = `Unregister ${email}`;
+            unregisterButton.textContent = "X";
+            unregisterButton.addEventListener("click", () => unregisterParticipant(name, email));
+            participantItem.appendChild(unregisterButton);
+          }
           participantList.appendChild(participantItem);
         });
 
@@ -86,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
+        localStorage.setItem(`participant-token:${email}`, result.unregister_token);
         signupForm.reset();
         await fetchActivities();
       } else {
@@ -113,7 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
         `/activities/${encodeURIComponent(activity)}/signup?email=${encodeURIComponent(email)}`,
         {
           method: "DELETE",
-          headers: { "X-Student-Email": email },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(`participant-token:${email}`)}`,
+          },
         }
       );
       const result = await response.json();
@@ -125,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.textContent = result.message;
       messageDiv.className = "success";
       messageDiv.classList.remove("hidden");
+      localStorage.removeItem(`participant-token:${email}`);
       await fetchActivities();
     } catch (error) {
       messageDiv.textContent = error.message;

@@ -32,7 +32,7 @@ A super simple FastAPI application that allows students to view and sign up for 
 | ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
 | GET    | `/activities`                                                     | Get all activities with their details and current participant count |
 | POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity                                             |
-| DELETE | `/activities/{activity_name}/signup?email=student@mergington.edu` | Unregister yourself; requires `X-Student-Email` header matching `email` |
+| DELETE | `/activities/{activity_name}/signup?email=student@mergington.edu` | Unregister using the `Authorization: Bearer <unregister_token>` header returned by signup |
 
 ## Data Model
 

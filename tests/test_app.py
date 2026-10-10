@@ -3,7 +3,7 @@ from copy import deepcopy
 import pytest
 from fastapi.testclient import TestClient
 
-from src.app import app, activities
+from src.app import app, activities, participant_tokens
 
 
 @pytest.fixture
@@ -61,11 +61,12 @@ def test_signup_and_unregister_update_participants(client):
 
     assert signup_response.status_code == 200
     assert email in activities["Chess Club"]["participants"]
+    token = signup_response.json()["unregister_token"]
 
     unregister_response = client.delete(
         "/activities/Chess%20Club/signup",
         params={"email": email},
-        headers={"X-Student-Email": email},
+        headers={"Authorization": f"Bearer {token}"},
     )
 
     assert unregister_response.status_code == 200
@@ -77,11 +78,20 @@ def test_unregister_rejects_different_student(client):
     response = client.delete(
         "/activities/Chess%20Club/signup",
         params={"email": email},
-        headers={"X-Student-Email": "different.student@mergington.edu"},
+        headers={"Authorization": "Bearer invalid-token"},
     )
 
     assert response.status_code == 403
     assert email in activities["Chess Club"]["participants"]
+
+
+def test_unregister_requires_bearer_token(client):
+    response = client.delete(
+        "/activities/Chess%20Club/signup",
+        params={"email": "michael@mergington.edu"},
+    )
+
+    assert response.status_code == 401
 
 
 def test_signup_rejects_unknown_activity(client):
