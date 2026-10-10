@@ -65,10 +65,23 @@ def test_signup_and_unregister_update_participants(client):
     unregister_response = client.delete(
         "/activities/Chess%20Club/signup",
         params={"email": email},
+        headers={"X-Student-Email": email},
     )
 
     assert unregister_response.status_code == 200
     assert email not in activities["Chess Club"]["participants"]
+
+
+def test_unregister_rejects_different_student(client):
+    email = "michael@mergington.edu"
+    response = client.delete(
+        "/activities/Chess%20Club/signup",
+        params={"email": email},
+        headers={"X-Student-Email": "different.student@mergington.edu"},
+    )
+
+    assert response.status_code == 403
+    assert email in activities["Chess Club"]["participants"]
 
 
 def test_signup_rejects_unknown_activity(client):

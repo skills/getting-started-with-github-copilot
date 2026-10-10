@@ -5,7 +5,7 @@ A super simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 import os
@@ -116,10 +116,17 @@ def signup_for_activity(activity_name: str, email: str):
 
 
 @app.delete("/activities/{activity_name}/signup")
-def unregister_from_activity(activity_name: str, email: str):
-    """Remove a student from an activity."""
+def unregister_from_activity(
+    activity_name: str,
+    email: str,
+    student_email: str = Header(..., alias="X-Student-Email"),
+):
+    """Remove the authenticated student from an activity."""
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
+
+    if student_email != email:
+        raise HTTPException(status_code=403, detail="Students can only unregister themselves")
 
     activity = activities[activity_name]
     with activity_lock:
