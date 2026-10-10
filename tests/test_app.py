@@ -9,10 +9,13 @@ from src.app import app, activities, participant_tokens
 @pytest.fixture
 def client():
     original_activities = deepcopy(activities)
+    original_tokens = participant_tokens.copy()
     with TestClient(app) as test_client:
         yield test_client
     activities.clear()
     activities.update(original_activities)
+    participant_tokens.clear()
+    participant_tokens.update(original_tokens)
 
 
 def test_get_activities_returns_activity_details(client):
