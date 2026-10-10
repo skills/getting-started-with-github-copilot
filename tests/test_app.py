@@ -9,10 +9,13 @@ from src.app import app, activities, participant_tokens
 @pytest.fixture
 def client():
     original_activities = deepcopy(activities)
+    original_participant_tokens = participant_tokens.copy()
     with TestClient(app) as test_client:
         yield test_client
     activities.clear()
     activities.update(original_activities)
+    participant_tokens.clear()
+    participant_tokens.update(original_participant_tokens)
 
 
 def test_get_activities_returns_activity_details(client):
@@ -71,6 +74,22 @@ def test_signup_and_unregister_update_participants(client):
 
     assert unregister_response.status_code == 200
     assert email not in activities["Chess Club"]["participants"]
+
+
+def test_signup_tokens_are_scoped_to_activity(client):
+    email = "new.student@mergington.edu"
+    chess_response = client.post(
+        "/activities/Chess%20Club/signup",
+        params={"email": email},
+    )
+    art_response = client.post(
+        "/activities/Art%20Studio/signup",
+        params={"email": email},
+    )
+
+    assert chess_response.status_code == 200
+    assert art_response.status_code == 200
+    assert chess_response.json()["unregister_token"] != art_response.json()["unregister_token"]
 
 
 def test_unregister_rejects_different_student(client):

@@ -83,11 +83,11 @@ activities = {
 
 activity_lock = Lock()
 participant_tokens = {
-    email: secrets.token_urlsafe(32)
-    for activity in activities.values()
+    (activity_name, email): secrets.token_urlsafe(32)
+    for activity_name, activity in activities.items()
     for email in activity["participants"]
 }
-bearer_scheme = HTTPBearer()
+bearer_scheme = HTTPBearer(auto_error=False)
 
 
 @app.get("/")
@@ -121,11 +121,11 @@ def signup_for_activity(activity_name: str, email: str):
 
         # Add student
         activity["participants"].append(email)
-        participant_tokens.setdefault(email, secrets.token_urlsafe(32))
+        participant_tokens[(activity_name, email)] = secrets.token_urlsafe(32)
 
     return {
         "message": f"Signed up {email} for {activity_name}",
-        "unregister_token": participant_tokens[email],
+        "unregister_token": participant_tokens[(activity_name, email)],
     }
 
 
@@ -133,22 +133,30 @@ def signup_for_activity(activity_name: str, email: str):
 def unregister_from_activity(
     activity_name: str,
     email: str,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
 ):
     """Remove a student using their server-issued bearer token."""
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    expected_token = participant_tokens.get(email)
-    if expected_token is None or not hmac.compare_digest(
-        credentials.credentials, expected_token
-    ):
-        raise HTTPException(status_code=403, detail="Invalid unregister token")
+    if credentials is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Authorization required",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
-    activity = activities[activity_name]
     with activity_lock:
+        expected_token = participant_tokens.get((activity_name, email))
+        if expected_token is None or not hmac.compare_digest(
+            credentials.credentials, expected_token
+        ):
+            raise HTTPException(status_code=403, detail="Invalid unregister token")
+
+        activity = activities[activity_name]
         if email not in activity["participants"]:
             raise HTTPException(status_code=404, detail="Student is not signed up")
 
         activity["participants"].remove(email)
+        del participant_tokens[(activity_name, email)]
     return {"message": f"Unregistered {email} from {activity_name}"}

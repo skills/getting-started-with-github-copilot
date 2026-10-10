@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
           participantEmail.textContent = email;
 
           participantItem.appendChild(participantEmail);
-          if (localStorage.getItem(`participant-token:${email}`)) {
+            const tokenKey = `participant-token:${name}:${email}`;
+            if (localStorage.getItem(tokenKey)) {
             const unregisterButton = document.createElement("button");
             unregisterButton.type = "button";
             unregisterButton.className = "unregister-button";
@@ -88,7 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
-        localStorage.setItem(`participant-token:${email}`, result.unregister_token);
+        localStorage.setItem(
+          `participant-token:${activity}:${email}`,
+          result.unregister_token
+        );
         signupForm.reset();
         await fetchActivities();
       } else {
@@ -117,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem(`participant-token:${email}`)}`,
+            Authorization: `Bearer ${localStorage.getItem(`participant-token:${activity}:${email}`)}`,
           },
         }
       );
@@ -130,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.textContent = result.message;
       messageDiv.className = "success";
       messageDiv.classList.remove("hidden");
-      localStorage.removeItem(`participant-token:${email}`);
+      localStorage.removeItem(`participant-token:${activity}:${email}`);
       await fetchActivities();
     } catch (error) {
       messageDiv.textContent = error.message;
