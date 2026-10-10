@@ -5,11 +5,15 @@ A super simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
+import hmac
 import os
 from pathlib import Path
+import secrets
+from threading import Lock
 
 app = FastAPI(title="Mergington High School API",
               description="API for viewing and signing up for extracurricular activities")
@@ -38,8 +42,52 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Basketball Team": {
+        "description": "Competitive basketball training and games",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Swimming Club": {
+        "description": "Swimming training and water sports",
+        "schedule": "Mondays and Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": []
+    },
+    "Art Studio": {
+        "description": "Express creativity through painting and drawing",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Drama Club": {
+        "description": "Theater arts and performance training",
+        "schedule": "Tuesdays, 4:00 PM - 6:00 PM",
+        "max_participants": 25,
+        "participants": []
+    },
+    "Debate Team": {
+        "description": "Learn public speaking and argumentation skills",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 16,
+        "participants": []
+    },
+    "Science Club": {
+        "description": "Hands-on experiments and scientific exploration",
+        "schedule": "Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": []
     }
 }
+
+activity_lock = Lock()
+participant_tokens = {
+    (activity_name, email): secrets.token_urlsafe(32)
+    for activity_name, activity in activities.items()
+    for email in activity["participants"]
+}
+bearer_scheme = HTTPBearer(auto_error=False)
 
 
 @app.get("/")
@@ -62,6 +110,53 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
-    # Add student
-    activity["participants"].append(email)
-    return {"message": f"Signed up {email} for {activity_name}"}
+    with activity_lock:
+        # Validate student is not already signed up
+        if email in activity["participants"]:
+            raise HTTPException(status_code=400, detail="Student is already signed up")
+
+        # Validate activity capacity
+        if len(activity["participants"]) >= activity["max_participants"]:
+            raise HTTPException(status_code=400, detail="Activity is full")
+
+        # Add student
+        activity["participants"].append(email)
+        participant_tokens[(activity_name, email)] = secrets.token_urlsafe(32)
+
+    return {
+        "message": f"Signed up {email} for {activity_name}",
+        "unregister_token": participant_tokens[(activity_name, email)],
+    }
+
+
+@app.delete("/activities/{activity_name}/signup")
+def unregister_from_activity(
+    activity_name: str,
+    email: str,
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+):
+    """Remove a student using their server-issued bearer token."""
+    if activity_name not in activities:
+        raise HTTPException(status_code=404, detail="Activity not found")
+
+    if credentials is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Authorization required",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    with activity_lock:
+        expected_token = participant_tokens.get((activity_name, email))
+        if expected_token is None or not hmac.compare_digest(
+            credentials.credentials, expected_token
+        ):
+            raise HTTPException(status_code=403, detail="Invalid unregister token")
+
+        activity = activities[activity_name]
+        if email not in activity["participants"]:
+            raise HTTPException(status_code=404, detail="Student is not signed up")
+
+        activity["participants"].remove(email)
+        del participant_tokens[(activity_name, email)]
+    return {"message": f"Unregistered {email} from {activity_name}"}
