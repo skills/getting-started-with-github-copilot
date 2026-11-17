@@ -15,7 +15,7 @@ In short, you can think of Copilot like a very specialized coworker. To be effec
 
 - **How do we provide context?:** In our coding environment, Copilot will automatically consider nearby code and open tabs. If you are using chat, you can also explicitly refer to files.
 
-- **What model should we pick?:** For our exercise, it shouldn't matter too much. Experimenting with different models is part of the fun! That's another lesson! 🤖
+- **What model should we pick?:** For this exercise, any model works. Keep the default or try [GitHub Copilot Fusion](https://docs.github.com/en/copilot/concepts/models/copilot-fusion), which automatically chooses models and how they work together for your task.
 
 - **How do I make prompts?:** Being explicit and clear helps Copilot do the best job. But unlike some traditional systems, you can always clarify your direction with followup prompts.
 
