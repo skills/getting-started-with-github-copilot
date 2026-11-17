@@ -95,7 +95,9 @@ Let's use Copilot to change the website to display signed up students under each
 
 Let's experiment with some more open-ended requests that will add more functionality to our web application.
 
-If you don't get the desired results, you can try other models or provide follow-up feedback to refine the results.
+This more open-ended task is a good opportunity to try [GitHub Copilot Fusion](https://docs.github.com/en/copilot/concepts/models/copilot-fusion).
+
+If you don't get the desired results, you can try other models or provide follow-up feedback.
 
 1. Make sure your Copilot is still in **Agent** mode.
 
