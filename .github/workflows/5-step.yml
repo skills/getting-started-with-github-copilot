@@ -40,14 +40,14 @@ jobs:
           ref: v0.8.1
 
       - name: Create comment - step finished - final review next
-        uses: GrantBirki/comment@v2.1.1
+        uses: GrantBirki/comment@v3.0.0
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/lesson-review.md
 
       - name: Create comment - add review content
-        uses: GrantBirki/comment@v2.1.1
+        uses: GrantBirki/comment@v3.0.0
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
