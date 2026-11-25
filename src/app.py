@@ -38,6 +38,12 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Swim Classes": {
+        "description": "Learn swimming from basic level to Pro level",
+        "schedule": "Every Wednesday 6:30 PM - 7:00 PM",
+        "max_participants": 15,
+        "participants": []
     }
 }
 
